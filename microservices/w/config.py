@@ -30,3 +30,12 @@ class wConfiguration(object):
 
     def get_w_port(self):
         return self.config.get("w", "port")
+
+    def get_w_tmpfile(self):
+        return self.config.get("w", "tmpfile")
+
+    def get_w_tempo(self):
+        return self.config.get("w", "tempo")
+
+    def get_w_debug(self):
+        return self.config.get("w", "debug")

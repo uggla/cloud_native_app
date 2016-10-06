@@ -8,12 +8,11 @@ import base64
 import logging
 from logging.handlers import RotatingFileHandler
 import pprint
-from os import listdir
-from os.path import isfile
-from os.path import join
+import os
 import random
 import time
 import subprocess
+import sys
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -47,16 +46,27 @@ def api_play(id):
 
     config.logger.info("Command: %s", cmd)
 
-    subprocess.check_call(cmd.split())
+    try:
+        subprocess.check_call(cmd.split())
+    except FileNotFoundError:
+        err = "Cannot find Imagemagick convert. " \
+              "Please make sure Imagemagick is installed and convert " \
+              "is in your path."
+
+        config.logger.error(err)
+        print(err)
 
     # Ready the watermarked image and encore it to base64
-    with open("/tmp/" + id + "_" + price, mode='rb') as file:
+    with open(config.w.conf_file.get_w_tmpfile() + "/" +
+              id + "_" + price, mode='rb') as file:
+
         file_content = file.read()
         img = base64.b64encode(file_content)
 
-    config.logger.info("Img: %s", img)
+    config.logger.debug("Img: %s", img)
 
-    time.sleep(5)  # Add latency on the service to simulate a long process
+    # Add latency on the service to simulate a long process
+    time.sleep(int(config.w.conf_file.get_w_tempo()))
 
     data = {"price": price, "img": img.decode("ascii")}
     resp = jsonify(data)
@@ -89,7 +99,8 @@ def api_root():
 
 
 def listprices(path):
-    onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+    onlyfiles = [f for f in os.listdir(path)
+                 if os.path.isfile(os.path.join(path, f))]
     return onlyfiles
 
 
@@ -108,7 +119,10 @@ def configure_logger(logger, logfile):
     file_handler = RotatingFileHandler(logfile, "a", 1000000, 1)
 
     # Add logger to file
-    file_handler.setLevel(logging.DEBUG)
+    if (config.w.conf_file.get_w_debug().title() == 'True'):
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.ERROR)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
@@ -117,14 +131,20 @@ if __name__ == "__main__":
     # Vars
     app_logfile = "w.log"
 
+    # Change diretory to script one
+    try:
+        os.chdir(os.path.dirname(sys.argv[0]))
+    except FileNotFoundError:
+        pass
+
     # Define a PrettyPrinter for debugging.
     pp = pprint.PrettyPrinter(indent=4)
 
-    # Configure Flask logger
-    configure_logger(app.logger, app_logfile)
-
     # Initialise apps
     config.initialise_w()
+
+    # Configure Flask logger
+    configure_logger(app.logger, app_logfile)
 
     config.logger.info("Starting %s", config.w.NAME)
     app.run(port=int(config.w.conf_file.get_w_port()))
