@@ -29,10 +29,11 @@ config.logger = app.logger
 @app.route("/play/<id>")
 def api_play(id):
     """Define the price for user <id>"""
+    config.logger.info("*** Start processing id %s ***", id)
 
     # Get list of prices and randomly choose one
     prices = listprices("prices")
-    config.logger.info("Prices list: %s", prices)
+    config.logger.debug("Prices list: %s", prices)
     price = random.choice(prices)
     config.logger.info("Price win: %s", price)
 
@@ -41,13 +42,14 @@ def api_play(id):
           price + \
           " -background Khaki label:'id:" + \
           id + \
-          "' -gravity center -append /tmp/" + \
-          id + "_" + price
+          "' -gravity center -append " + config.w.conf_file.get_w_tmpfile() + \
+          "/" + id + "_" + price
 
     config.logger.info("Command: %s", cmd)
 
     try:
         subprocess.check_call(cmd.split())
+        config.logger.info("Image %s generated", id + "_" + price)
     except FileNotFoundError:
         err = "Cannot find Imagemagick convert. " \
               "Please make sure Imagemagick is installed and convert " \
@@ -56,7 +58,7 @@ def api_play(id):
         config.logger.error(err)
         print(err)
 
-    # Ready the watermarked image and encore it to base64
+    # Read the watermarked image and encore it to base64
     with open(config.w.conf_file.get_w_tmpfile() + "/" +
               id + "_" + price, mode='rb') as file:
 
@@ -71,6 +73,7 @@ def api_play(id):
     data = {"price": price, "img": img.decode("ascii")}
     resp = jsonify(data)
     resp.status_code = 200
+    config.logger.info("*** End processing id %s ***", id)
     return resp
 
 
@@ -122,7 +125,7 @@ def configure_logger(logger, logfile):
     if (config.w.conf_file.get_w_debug().title() == 'True'):
         logger.setLevel(logging.DEBUG)
     else:
-        logger.setLevel(logging.ERROR)
+        logger.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
