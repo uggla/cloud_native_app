@@ -31,12 +31,18 @@ mysql -h 192.168.0.60 -u prestashop -p prestashop
 >>> r.fetch_row()
 ```
 
+### Queries
+```
+select id_customer, firstname, lastname, email from ps_customer;
+```
+```
+select id_customer, firstname, lastname, email from ps_customer where id_customer=1;
+```
+
 ## Configuration file
 
 ```
-[i]
-port=8080
-debug=False
+to include
 ```
 
 * Port: Tcp port number used by the server.
@@ -56,26 +62,20 @@ Return service name and version
 ```json
 {
 
-    "Service": "Microservice w",
+    "Service": "Microservice i",
     "Version": "0.1"
 
 }
 ```
 
 ## Request
-GET /play/id
+GET /user/id
 
 ### Response
 
-Return price and base64 image data
+Return user data
 
 ```json
-{
-
-    "img": "/9j/4AAQSkZJRgABAQEASABIAAD/7RPqUGhvdG9zaG9wIDMuMAA4QklNBCUAAAAAABAAAAAAAAAAAAAAAAAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAIASAAAAAEAAjhCSU0EJgAAAAAADgAAAAAAAAAAAAA/gAAAOEJJTQQNAAAAAAAEAAAAHjh...
-    "price": "usbkey.jpg"
-
-}
 ```
 
 ## Request
