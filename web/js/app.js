@@ -5,7 +5,7 @@
 $( document ).ready(function() {
 	console.log( "Document ready !" );
 	srvI = new ServiceI();
-	srvI.ajax("http://localhost:8000/bla.html");
+	srvI.ajax("http://localhost:8080/");
 });
 
 
@@ -18,6 +18,7 @@ function ServiceI(){
 			crossDomain:true,
 			success: function (response) {
 				console.log(response);
+				console.log(response.Service);
 			},
 			error: function (xhr, status, ajaxerror) {
 				console.log(status);
