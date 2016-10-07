@@ -12,6 +12,7 @@ import sys
 from flask import Flask
 from flask import jsonify
 from flask import request
+import _mysql
 import config
 
 # Initialise Flask
@@ -20,6 +21,41 @@ app.debug = True
 
 # Affect app logger to a global variable so logger can be used elsewhere.
 config.logger = app.logger
+
+
+@app.route("/user/<id>")
+def api_play(id):
+    """Retrieve data for user <id>"""
+    config.logger.info("*** Start processing id %s ***", id)
+
+    db = _mysql.connect(host='127.0.0.1',
+                        user='prestashop',
+                        passwd='prestashop1234',
+                        db='prestashop')
+
+    db.query("""select id_customer,
+                firstname,
+                lastname,
+                email
+                from ps_customer where id_customer=""" + id + ";")
+
+    r = db.store_result()
+    pp = pprint.PrettyPrinter(indent=4)
+
+    if r.num_rows():
+        lines = r.fetch_row()
+        pp.pprint(lines[0])
+        print(lines[0][1].decode('utf-8'))
+    else:
+        print("Not found")
+
+
+    data = {"price": "price", "img": "img"}
+    resp = jsonify(data)
+    resp.status_code = 200
+    config.logger.info("*** End processing id %s ***", id)
+    add_headers(resp)
+    return resp
 
 
 @app.route("/shutdown", methods=["POST"])
