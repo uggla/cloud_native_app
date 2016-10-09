@@ -28,10 +28,11 @@ def api_play(id):
     """Retrieve data for user <id>"""
     config.logger.info("*** Start processing id %s ***", id)
 
-    db = _mysql.connect(host='127.0.0.1',
-                        user='prestashop',
-                        passwd='prestashop1234',
-                        db='prestashop')
+    dbparameters = config.i.conf_file.get_i_dbparameters()
+    db = _mysql.connect(host=dbparameters["dbhost"],
+                        user=dbparameters["dbuser"],
+                        passwd=dbparameters["dbpasswd"],
+                        db=dbparameters["dbname"])
 
     db.query("""select id_customer,
                 firstname,
@@ -40,17 +41,19 @@ def api_play(id):
                 from ps_customer where id_customer=""" + id + ";")
 
     r = db.store_result()
-    pp = pprint.PrettyPrinter(indent=4)
 
+    data = {}
     if r.num_rows():
         lines = r.fetch_row()
-        pp.pprint(lines[0])
-        print(lines[0][1].decode('utf-8'))
+        config.logger.debug("User data: %s", lines)
+        data.update({"id": id,
+                     "firstname": lines[0][1].decode('utf-8'),
+                     "lastname": lines[0][2].decode('utf-8'),
+                     "email": lines[0][3].decode('utf-8')})
     else:
-        print("Not found")
+        config.logger.debug("User id: %s not found", id)
+        data.update({"id": "Not found"})
 
-
-    data = {"price": "price", "img": "img"}
     resp = jsonify(data)
     resp.status_code = 200
     config.logger.info("*** End processing id %s ***", id)

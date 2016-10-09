@@ -33,3 +33,11 @@ class iConfiguration(object):
 
     def get_i_debug(self):
         return self.config.get("i", "debug")
+
+    def get_i_dbparameters(self):
+        parameters = {}
+        parameters.update({"dbhost": self.config.get("i", "dbhost")})
+        parameters.update({"dbuser": self.config.get("i", "dbuser")})
+        parameters.update({"dbpasswd": self.config.get("i", "dbpasswd")})
+        parameters.update({"dbname": self.config.get("i", "dbname")})
+        return parameters
