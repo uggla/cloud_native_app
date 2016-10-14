@@ -65,7 +65,7 @@ def api_play(id):
 def shutdown():
     """Shutdown server"""
     shutdown_server()
-    config.logger.info("Stopping %s...", config.w.NAME)
+    config.logger.info("Stopping %s...", config.i.NAME)
     return "Server shutting down..."
 
 
