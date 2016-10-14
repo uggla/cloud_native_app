@@ -74,6 +74,7 @@ def api_play(id):
     resp = jsonify(data)
     resp.status_code = 200
     config.logger.info("*** End processing id %s ***", id)
+    add_headers(resp)
     return resp
 
 
@@ -98,6 +99,7 @@ def api_root():
 
     resp.headers["AuthorSite"] = "https://github.com/uggla/openstack_lab"
 
+    add_headers(resp)
     return resp
 
 
@@ -128,6 +130,12 @@ def configure_logger(logger, logfile):
         logger.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
+
+
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization')
 
 
 if __name__ == "__main__":
