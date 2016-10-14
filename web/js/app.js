@@ -4,6 +4,7 @@
  */
 $( document ).ready(function() {
 	console.log( "Document ready !" );
+	console.log($.urlParam('id'));
 	srvI = new ServiceI();
 	srvI.ajax("http://localhost:8080/");
 });
@@ -27,4 +28,16 @@ function ServiceI(){
 			}
 		});
 	}
+}
+
+
+
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
 }
