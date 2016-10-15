@@ -3,22 +3,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Openstack lab play</title>
+		<style>
+			/* Prevent FOUC */
+			body { opacity: 0; }
+			div.srvI, div.srvS, div.srvB, div.srvP { border: 2px solid black;
+			margin-bottom:10px;}
+		</style>
 	</head>
 	<body>
 		<div class="srvI">
-			Service Identification
+			<h1>Service Identification (i)</h1>
+			<div id="srvIstatus"></div>
 		</div>
 
 		<div class="srvS">
-			Service Status
+			<h1>Service Status (s)</h1>
 		</div>
 
 		<div class="srvB">
-			Service Button
+			<h1>Service Button (b)</h1>
+			<button type="button" id="play">Play !</button> 
 		</div>
 
 		<div class="srvP">
-			Service Picture
+			<h1>Service Picture (p)</h1>
 		</div>
 		
 		<script src="js/jquery-2.2.3.min.js"></script>
