@@ -89,6 +89,7 @@ function S(status, response)
 		else{
 			var answer = '';
 			answer += 'You played the game the ';
+			answer += response.status;
 			answer += ', please look at your price below...';
 			$("#srvSstatus").html(answer)
 			$("#play").prop("disabled", true)
