@@ -35,9 +35,9 @@ def api_play(id):
     value = r.get(id)
     config.logger.debug("id: %s value: %s", id, value)
     if value:
-        data = {id: value.decode("utf-8")}
+        data = {"id": id, "status": value.decode("utf-8")}
     else:
-        data = {id: "not_played"}
+        data = {"id": id, "status": "not_played"}
 
     resp = jsonify(data)
     resp.status_code = 200
