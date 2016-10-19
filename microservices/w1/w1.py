@@ -3,6 +3,8 @@
 # Worker 1 called by service B. This worker listen to amqp messages and write
 # to redis that the user played.
 
+import datetime
+import json
 import pika
 import redis
 
@@ -26,6 +28,13 @@ print('Worker w1 running waiting for service b messages. To exit press CTRL+C')
 
 def callback(ch, method, properties, body):
     print(" [x] %r" % body)
+    timestamp = datetime.datetime.now()
+
+    data = json.loads(body.decode("utf-8"))
+    r = redis.Redis("localhost")
+    r.set(data["id"], timestamp.strftime("%c"))
+
+    # Acknowledge message
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 channel.basic_consume(callback,
