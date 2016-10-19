@@ -3,9 +3,8 @@
 
 
 """
-Service B trigger service W in order to define the user price, then send an
-amqp message to worker w1 that will write to redis and worker w2 that will
-send a mail using mailgun.
+Service B trigger service W in order to define the user price then,
+send an amqp message to worker w1 that will write to redis, swift and worker w2 that will send a mail using mailgun.
 """
 
 import logging
@@ -59,11 +58,13 @@ def api_play(id):
     channel.queue_bind(exchange='serviceb',
                        queue='mailgun', routing_key='serviceb.msg')
 
-    message = json.dumps({"id": id, "price": data["price"]})
+    message = json.dumps({"id": id,
+                          "price": data["price"],
+                          "img": data["img"]})
     channel.basic_publish(exchange='serviceb',
                           routing_key='serviceb.msg',
                           body=message)
-    print(" [x] Sent %r" % message)
+    config.logger.debug(" [x] Sent %r" % message)
     connection.close()
 
     # Send back answer
