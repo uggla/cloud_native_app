@@ -7,6 +7,7 @@ import datetime
 import json
 import pika
 import redis
+import swiftclient
 
 
 connection = pika.BlockingConnection(
@@ -30,9 +31,28 @@ def callback(ch, method, properties, body):
     print(" [x] %r" % body)
     timestamp = datetime.datetime.now()
 
+    # Write to redis
     data = json.loads(body.decode("utf-8"))
     r = redis.Redis("localhost")
     r.set(data["id"], timestamp.strftime("%c"))
+
+    # Write to swift
+    _authurl = 'http://10.3.222.89:5000/v2.0/'
+    _auth_version = '2'
+    _user = 'admin'
+    _key = 'password'
+    _tenant_name = 'demo'
+
+    conn = swiftclient.Connection(
+        authurl=_authurl,
+        user=_user,
+        key=_key,
+        tenant_name=_tenant_name,
+        auth_version=_auth_version
+    )
+
+    container_name = 'mycontainer'
+    conn.put_container(container_name)
 
     # Acknowledge message
     ch.basic_ack(delivery_tag=method.delivery_tag)
