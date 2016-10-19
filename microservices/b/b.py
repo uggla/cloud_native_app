@@ -3,8 +3,9 @@
 
 
 """
-Service B trigger service W in order to define the user price, then update
-redis and send a mail via rabbitmq.
+Service B trigger service W in order to define the user price, then send an
+amqp message to worker w1 that will write to redis and worker w2 that will
+send a mail using mailgun.
 """
 
 import logging
@@ -12,10 +13,12 @@ from logging.handlers import RotatingFileHandler
 import pprint
 import os
 import sys
+import json
 from flask import Flask
 from flask import jsonify
 from flask import request
 import requests
+import pika
 import config
 
 # Initialise Flask
@@ -31,8 +34,40 @@ def api_play(id):
     """Retrieve data for user <id>"""
     config.logger.info("*** Start processing id %s ***", id)
 
-    data = {id: "not_played"}
+    # Call service w
+    w = requests.get("http://localhost:8090/play/" + id)
+    config.logger.debug(w)
+    config.logger.debug(w.json())
 
+    data = w.json()
+    config.logger.debug(data["price"])
+
+    # Send message to workers.
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
+
+    channel = connection.channel()
+
+    channel.exchange_declare(exchange='serviceb',
+                             exchange_type='direct')
+
+    channel.queue_declare(queue='redis')
+    channel.queue_declare(queue='mailgun')
+
+    channel.queue_bind(exchange='serviceb',
+                       queue='redis', routing_key='serviceb.msg')
+    channel.queue_bind(exchange='serviceb',
+                       queue='mailgun', routing_key='serviceb.msg')
+
+    message = json.dumps({"id": id, "price": data["price"]})
+    channel.basic_publish(exchange='serviceb',
+                          routing_key='serviceb.msg',
+                          body=message)
+    print(" [x] Sent %r" % message)
+    connection.close()
+
+    # Send back answer
+    data = {"status": "ok"}
     resp = jsonify(data)
     resp.status_code = 200
     config.logger.info("*** End processing id %s ***", id)
