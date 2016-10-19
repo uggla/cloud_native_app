@@ -90,7 +90,9 @@ function S(status, response)
 			var answer = '';
 			answer += 'You played the game the ';
 			answer += ', please look at your price below...';
-			$("#srvIstatus").html(answer)
+			$("#srvSstatus").html(answer)
+			$("#play").prop("disabled", true)
+			$("#srvBstatus").html("You already played the game, you can not play again.")
 		}
 	}
 	else{
@@ -109,7 +111,7 @@ function B(status, response)
 		}
 	}
 	else{
-		$("#srvSstatus").html("Service <b>b</b> is currently not available.")
+		$("#srvBstatus").html("Service <b>b</b> is currently not available, please retry later.")
 
 	}
 }
