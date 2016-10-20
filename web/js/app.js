@@ -16,6 +16,8 @@ $( document ).ready(function() {
 		srvI.ajax(I, "http://localhost:8080/user/" + id);
 		srvS = new Service();
 		srvS.ajax(S, "http://localhost:8081/user/" + id);
+		srvP = new Service();
+		srvP.ajax(P, "http://localhost:8083/user/" + id);
 	}
 	$("#play").click(function(){
 		console.log("Play clicked !");
@@ -113,6 +115,27 @@ function B(status, response)
 	}
 	else{
 		$("#srvBstatus").html("Service <b>b</b> is currently not available, please retry later.")
+	}
+}
+
+function P(status, response)
+{
+	if (status=="ok"){
+		// Craft the answer.
+		if (response.status=="ok"){
+			var answer = '';
+			answer += '<img src="data:image/jpg;base64,';
+			answer += response.img;
+			answer += '" width="900px">'
+			console.log(answer)
+			$("#srvPstatus").html(answer)
+		}
+		else{
+			$("#srvPstatus").html("You have not played yet...")
+		}
+	}
+	else{
+		$("#srvPstatus").html("Service <b>p</b> is currently not available, please retry later.")
 
 	}
 }
