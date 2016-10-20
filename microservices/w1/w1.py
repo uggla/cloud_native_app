@@ -3,6 +3,7 @@
 # Worker 1 called by service B. This worker listen to amqp messages and write
 # to redis that the user played.
 
+import io
 import datetime
 import json
 import pika
@@ -51,8 +52,27 @@ def callback(ch, method, properties, body):
         auth_version=_auth_version
     )
 
-    container_name = 'mycontainer'
+    container_name = 'prices'
     conn.put_container(container_name)
+
+#    with open('local.txt', 'rb') as local:
+#        conn.put_object(
+#            container_name,
+#            'local_object.txt',
+#            contents=local,
+#            content_type='text/plain'
+#        )
+
+    content = io.BytesIO(data["img"].encode())
+    filename = data["id"] + ".txt"
+    print("Filename : {}".format(filename))
+    conn.put_object(
+        container_name,
+        filename,
+        contents=content.read(),
+        content_type='text/plain'
+    )
+
 
     # Acknowledge message
     ch.basic_ack(delivery_tag=method.delivery_tag)
