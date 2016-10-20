@@ -52,10 +52,13 @@ def api_play(id):
     container_name = 'prices'
 
     config.logger.debug("Filename : %s", filename)
-    resp_headers, obj_contents = conn.get_object(container_name, filename)
-    content.write(obj_contents)
+    try:
+        resp_headers, obj_contents = conn.get_object(container_name, filename)
+        content.write(obj_contents)
+        data = {"status": "ok", "img": content.getvalue().decode("utf-8")}
+    except swiftclient.exceptions.ClientException:
+        data = {"status": "ko"}
 
-    data = {"img": content.getvalue().decode("utf-8")}
     resp = jsonify(data)
     resp.status_code = 200
     config.logger.info("*** End processing id %s ***", id)
