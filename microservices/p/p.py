@@ -29,35 +29,38 @@ def api_play(id):
     """Retrieve data for user <id>"""
     config.logger.info("*** Start processing id %s ***", id)
 
-    # Write from swift
-    _authurl = 'http://10.3.222.89:5000/v2.0/'
-    _auth_version = '2'
-    _user = 'admin'
-    _key = 'password'
-    _tenant_name = 'demo'
+    os = config.p.conf_file.get_p_os_parameters()
+    config.logger.debug(os)
 
+    # Read from swift
     conn = swiftclient.Connection(
-        authurl=_authurl,
-        user=_user,
-        key=_key,
-        tenant_name=_tenant_name,
-        auth_version=_auth_version
+        authurl=os["os_authurl"],
+        user=os["os_user"],
+        key=os["os_key"],
+        tenant_name=os["os_tenant_name"],
+        auth_version=os["os_auth_version"],
+        retries=2
     )
 
     container_name = 'prices'
-    conn.put_container(container_name)
-
-    content = io.BytesIO()
-    filename = id + ".txt"
-    container_name = 'prices'
-
-    config.logger.debug("Filename : %s", filename)
+    data = {"status": "ko"}  # Set something for status
     try:
-        resp_headers, obj_contents = conn.get_object(container_name, filename)
-        content.write(obj_contents)
-        data = {"status": "ok", "img": content.getvalue().decode("utf-8")}
+        conn.put_container(container_name)
     except swiftclient.exceptions.ClientException:
-        data = {"status": "ko"}
+        data = {"status": "swiftko"}
+
+    if data["status"] != "swiftko":
+        content = io.BytesIO()
+        filename = id + ".txt"
+        container_name = 'prices'
+
+        config.logger.debug("Filename : %s", filename)
+        try:
+            resp_headers, obj_contents = conn.get_object(container_name, filename)
+            content.write(obj_contents)
+            data = {"status": "ok", "img": content.getvalue().decode("utf-8")}
+        except swiftclient.exceptions.ClientException:
+            data = {"status": "ko"}
 
     resp = jsonify(data)
     resp.status_code = 200
