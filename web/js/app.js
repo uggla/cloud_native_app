@@ -130,6 +130,9 @@ function P(status, response)
 			console.log(answer)
 			$("#srvPstatus").html(answer)
 		}
+		else if (response.status=="swiftko"){
+			$("#srvPstatus").html("Service <b>p</b> is not able to reach swift object storage")
+		}
 		else{
 			$("#srvPstatus").html("You have not played yet...")
 		}
