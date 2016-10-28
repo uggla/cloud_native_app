@@ -42,8 +42,18 @@ def api_play(id):
     config.logger.debug(data["price"])
 
     # Send message to workers.
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='localhost'))
+    if config.b.conf_file.get_b_rabbithost() == 'localhost':
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host=config.b.conf_file.get_b_rabbithost()))
+    else:
+        credentials = pika.PlainCredentials(
+            config.b.conf_file.get_b_rabbitlogin(),
+            config.b.conf_file.get_b_rabbitpassword())
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                credentials=credentials,
+                host=config.b.conf_file.get_b_rabbithost()))
 
     channel = connection.channel()
 

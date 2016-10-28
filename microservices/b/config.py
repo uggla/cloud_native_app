@@ -34,3 +34,11 @@ class bConfiguration(object):
     def get_b_debug(self):
         return self.config.get("b", "debug")
 
+    def get_b_rabbithost(self):
+        return self.config.get("b", "rabbithost")
+
+    def get_b_rabbitlogin(self):
+        return self.config.get("b", "rabbitlogin")
+
+    def get_b_rabbitpassword(self):
+        return self.config.get("b", "rabbitpassword")
