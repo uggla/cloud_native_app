@@ -5,7 +5,9 @@
 $( document ).ready(function() {
 	console.log( "Document ready !" );
 	id = $.urlParam("id");
+	forceplay = $.urlParam("forceplay");
 	console.log("id=" + id);
+	console.log("forceplay=" + forceplay);
 	if (id=='' || id==null){
 		$("body").html("Please provide a user id !");
 		$("body").css({"opacity":"100"});
@@ -20,6 +22,9 @@ $( document ).ready(function() {
 		srvP.ajax(P, srvPurl + id);
 	}
 	$("#play").click(function(){play();});
+	if (forceplay == 'true'){
+		play();
+	}
 });
 
 
