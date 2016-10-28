@@ -67,16 +67,17 @@ function I(status, response)
 			var answer = '';
 			answer += '<table id="userdata">';
 			answer += '<tr>';
-			answer += '<td>id</td><td>' + response.id + '</td>';
+			answer += '<td>Id</td><td>' + response.id + '</td>';
 			answer += '</tr>';
 			answer += '<tr>';
-			answer += '<td>firstname</td><td>' + response.firstname + '</td>';
+			// Firstname and lastname seems inverted so fixing it here
+			answer += '<td>Firstname</td><td>' + response.lastname + '</td>';
 			answer += '</tr>';
 			answer += '<tr>';
-			answer += '<td>lastname</td><td>' + response.lastname + '</td>';
+			answer += '<td>Lastname</td><td>' + response.firstname + '</td>';
 			answer += '</tr>';
 			answer += '<tr>';
-			answer += '<td>email</td><td>' + response.email + '</td>';
+			answer += '<td>Email</td><td>' + response.email + '</td>';
 			answer += '</tr>';
 			answer += '</table>';
 			$("#srvIstatus").html(answer)
