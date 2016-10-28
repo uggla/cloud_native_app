@@ -13,20 +13,22 @@ $( document ).ready(function() {
 	else{
 		$("body").css({"opacity":"100"});
 		srvI = new Service();
-		srvI.ajax(I, "http://localhost:8080/user/" + id);
+		srvI.ajax(I, srvIurl + id);
 		srvS = new Service();
-		srvS.ajax(S, "http://localhost:8081/user/" + id);
+		srvS.ajax(S, srvSurl + id);
 		srvP = new Service();
-		srvP.ajax(P, "http://localhost:8083/user/" + id);
+		srvP.ajax(P, srvPurl + id);
 	}
-	$("#play").click(function(){
-		console.log("Play clicked !");
-		$("#srvBstatus").html("Defining your price, please wait...");
-		srvB = new Service();
-		srvB.ajax(B, "http://localhost:8082/user/" + id);
-	});
+	$("#play").click(function(){play();});
 });
 
+
+function play(){
+	console.log("Play clicked !");
+	$("#srvBstatus").html("Defining your price, please wait...");
+	srvB = new Service();
+	srvB.ajax(B, srvBurl + id);
+}
 
 function Service(){
 	/* Object to manage Service api */
