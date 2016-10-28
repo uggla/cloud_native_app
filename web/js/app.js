@@ -112,6 +112,7 @@ function B(status, response)
 		// Craft the answer.
 		if (response.status=="ok"){
 			$("#srvBstatus").html("Refresh the page to see your price.")
+			$("#srvBstatus").addClass("topmsg")
 			$("#play").prop("disabled", true)
 		}
 	}
