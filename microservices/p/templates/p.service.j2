@@ -1,0 +1,16 @@
+[Unit]
+Description=cna service p
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+#EnvironmentFile=-/etc/sysconfig/consul
+#Environment=GOMAXPROCS=2
+#Restart=on-failure
+ExecStart=/home/p/p.py
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+User=p
+
+[Install]
+WantedBy=multi-user.target

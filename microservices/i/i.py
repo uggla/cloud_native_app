@@ -135,4 +135,4 @@ if __name__ == "__main__":
     configure_logger(app.logger, app_logfile)
 
     config.logger.info("Starting %s", config.i.NAME)
-    app.run(port=int(config.i.conf_file.get_i_port()))
+    app.run(port=int(config.i.conf_file.get_i_port()), host="0.0.0.0")

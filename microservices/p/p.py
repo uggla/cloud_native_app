@@ -143,4 +143,4 @@ if __name__ == "__main__":
     configure_logger(app.logger, app_logfile)
 
     config.logger.info("Starting %s", config.p.NAME)
-    app.run(port=int(config.p.conf_file.get_p_port()))
+    app.run(port=int(config.p.conf_file.get_p_port()), host='0.0.0.0')
