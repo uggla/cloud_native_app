@@ -1,0 +1,9 @@
+<VirtualHost *:80>
+        ServerName {{ stackname }}-web.service.consul
+        ProxyPreserveHost On
+        ProxyRequests On
+        ProxyPassMatch /srvi/user/(.*) http://{{ stackname }}-i.service.consul:8080/user/$1
+        ProxyPassMatch /srvs/user/(.*) http://{{ stackname }}-s.service.consul:8081/user/$1
+        ProxyPassMatch /srvb/user/(.*) http://{{ stackname }}-b.service.consul:8082/user/$1
+        ProxyPassMatch /srvp/user/(.*) http://{{ stackname }}-p.service.consul:8083/user/$1
+</VirtualHost>
