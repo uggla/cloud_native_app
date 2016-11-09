@@ -34,7 +34,7 @@ def api_play(id):
     config.logger.info("*** Start processing id %s ***", id)
 
     # Call service w
-    w = requests.get("http://localhost:8090/play/" + id)
+    w = requests.get(config.b.conf_file.get_b_wurl() + id)
     config.logger.debug(w)
     config.logger.debug(w.json())
 

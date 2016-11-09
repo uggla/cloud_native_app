@@ -42,3 +42,6 @@ class bConfiguration(object):
 
     def get_b_rabbitpassword(self):
         return self.config.get("b", "rabbitpassword")
+
+    def get_b_wurl(self):
+        return self.config.get("b", "wurl")
