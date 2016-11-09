@@ -1,15 +1,13 @@
 [Unit]
-Description=cna service w2
+Description=cna service w
 Requires=network-online.target
 After=network-online.target
 
 [Service]
-EnvironmentFile=/home/w2/W2ENV
-ExecStart=/home/w2/w2.py
+ExecStart=/home/w/w.py
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
-User=w2
-WorkingDirectory=/home/w2
+User=w
 
 [Install]
 WantedBy=multi-user.target

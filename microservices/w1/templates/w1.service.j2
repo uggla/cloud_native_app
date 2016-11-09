@@ -10,7 +10,8 @@ After=network-online.target
 ExecStart=/home/w1/w1.py
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
-User=s
+User=w1
+WorkingDirectory=/home/w1
 
 [Install]
 WantedBy=multi-user.target
