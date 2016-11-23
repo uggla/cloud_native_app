@@ -1,0 +1,15 @@
+version: "2"
+services:
+    s:
+        build:
+            context: .
+        ports:
+            - "8081:8081"
+        links:
+            - db
+    db:
+        container_name: redis
+        image:
+            redis
+        #args:
+        #appendonly: yes
