@@ -14,7 +14,7 @@ The ourput is a json with the price and the image data.
 
 ```
 [w]
-port=8080
+port=8090
 tmpfile=/tmp
 tempo=5
 debug=False
