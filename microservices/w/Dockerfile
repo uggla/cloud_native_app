@@ -1,7 +1,8 @@
 FROM debian:jessie
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-apt-get install -y python3 imagemagick python3-flask
+apt-get install -y python3 python3-flask
+RUN apt-get install -y imagemagick
 RUN useradd w
 COPY config.py w.conf w.py /home/w/
 COPY prices /home/w/prices/

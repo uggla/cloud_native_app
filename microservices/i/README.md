@@ -6,8 +6,10 @@ for a specific id.
 ## Dependencies
 
 - Python 3
-- python3-mysql
 - Flask (python3-flask)
+- libmysqlclient-dev
+- python3-pip
+- pip3 install mysqlclient
 
 ## Test with mariadb docker
 ```

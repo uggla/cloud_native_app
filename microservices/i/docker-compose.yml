@@ -1,0 +1,20 @@
+version: "2"
+services:
+    i:
+        build:
+            context: .
+        ports:
+            - "8080:8080"
+        links:
+            - db
+    db:
+        container_name: db
+        image:
+            mariadb
+        environment:
+            - MYSQL_ROOT_PASSWORD=plusbeton
+            - MYSQL_DATABASE=prestashop
+            - MYSQL_USER=prestashop
+            - MYSQL_PASSWORD=prestashop1234
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
