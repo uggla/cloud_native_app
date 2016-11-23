@@ -8,51 +8,29 @@ The purpose of this service is to read the redis key value store in order to kno
 - python3-redis
 - Flask (python3-flask)
 
-## Test with mariadb docker
+## Test with redis docker
 ```
-docker run -d -v $PWD/dump:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=toto -e MYSQL_DATABASE=prestashop -e MYSQL_USER=prestashop -e MYSQL_PASSWORD=prestashop1234 -p 3306:3306 mariadb
+docker run -v redisdata:/data --name myredis -d redis redis-server --appendonly yes
 
-mysql -h 127.0.0.1 -u prestashop -p prestashop
-```
-
-### Python
-
-```
->>> import _mysql
->>> db = _mysql.connect(host='127.0.0.1', user='prestashop', passwd='prestashop1234', db='prestashop')
->>> db.query("""show tables""")
->>> r=db.store_result()
->>> r
-<_mysql.result object at 7f8cd6e7df98>
->>> r.fetch_row()
-```
-
-### Queries
-```
-select id_customer, firstname, lastname, email from ps_customer;
-```
-```
-select id_customer, firstname, lastname, email from ps_customer where id_customer=1;
+docker run -ti --link myredis:redis --rm redis redis-cli -h redis -p 6379
+redis:6379> set key toto
+OK
+redis:6379> get key
+"toto"
 ```
 
 ## Configuration file
 
 ```
 [s]
-port=8080
+port=8081
 debug=True
-dbhost=127.0.0.1
-dbuser=prestashop
-dbpasswd=prestashop1234
-dbname=prestashop
+redishost=127.0.0.1
 ```
 
 * Port: Tcp port number used by the server.
 * debug: Add information to log file to debug the app.
-* dbhost: Database host running the mariadb instance.
-* dbuser: User name to connect to the database.
-* dbpasswd: Password to connect to the database.
-* dbname: Database name.
+* redishost: Database host running the redis instance.
 
 ## API
 
@@ -65,7 +43,7 @@ Return service name and version
 
 ```json
 {
-    "Service": "Microservice i",
+    "Service": "Microservice s",
     "Version": "0.1"
 }
 ```
@@ -79,17 +57,16 @@ Return user data or not found if the id does not exist.
 
 ```json
 {
-    "email": "pub@prestashop.com",
-    "firstname": "John",
-    "id": "1",
-    "lastname": "DOE"
+    id: "1",
+    status: "Fri Oct 30 20:43:12 2016"
 }
 ```
 
 or
 ```json
 {
-    "id": "Not found"
+    id: "1",
+    status: "not_played"
 }
 ```
 
