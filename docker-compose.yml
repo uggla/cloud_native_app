@@ -1,0 +1,33 @@
+version: "2"
+services:
+    rabbit:
+        container_name: rabbit
+        image:
+            rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        networks:
+            dcklan:
+                aliases:
+                    - rabbit
+    redis:
+        container_name: redis
+        image:
+            redis
+        ports:
+            - "6379:6379"
+        networks:
+            dcklan:
+                aliases:
+                    - redis
+    s:
+        build:
+            context: microservices/s
+        ports:
+            - "8081:8081"
+        networks:
+            dcklan:
+networks:
+    dcklan:
+        driver: bridge
