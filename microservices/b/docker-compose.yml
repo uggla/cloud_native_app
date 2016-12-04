@@ -1,11 +1,15 @@
 version: "2"
 services:
-    w2:
+    b:
         build:
             context: .
+        ports:
+            - "8082:8082"
         links:
             - rabbit
     rabbit:
         container_name: rabbit
         image:
-            rabbitmq
+            rabbit
+        #args:
+        #appendonly: yes

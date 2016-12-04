@@ -1,6 +1,6 @@
 version: "2"
 services:
-    w2:
+    w1:
         build:
             context: .
         links:
