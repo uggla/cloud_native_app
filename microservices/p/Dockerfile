@@ -5,7 +5,7 @@ apt-get install -y python3 python3-flask
 RUN apt-get install -y python3-pip
 RUN pip3 install -U pip
 RUN pip3 install python-swiftclient
-RUN pip3 install python-swiftclient
+RUN pip3 install python-keystoneclient
 RUN useradd p
 COPY config.py p.conf p.py /home/p/
 RUN chown -R p:p /home/p/

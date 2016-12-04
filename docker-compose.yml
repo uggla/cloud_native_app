@@ -1,28 +1,25 @@
 version: "2"
 services:
     rabbit:
-      #container_name: rabbit
         image:
-            rabbitmq
+            rabbitmq:3-management
         ports:
-          #    - "5672:5672"
             - "15672:15672"
+        environment:
+          - RABBITMQ_DEFAULT_USER=stackrabbit
+          - RABBITMQ_DEFAULT_PASS=password
         networks:
             cnalan:
                 aliases:
                     - rabbit
     redis:
-      #  container_name: redis
         image:
             redis
-        #ports:
-        #    - "6379:6379"
         networks:
             cnalan:
                 aliases:
                     - redis
     mariadb:
-      #  container_name: mariadb
         image:
             mariadb
         volumes:
@@ -44,13 +41,13 @@ services:
         links:
           - i
           - s
+          - b
+          - p
         networks:
             cnalan:
     i:
         build:
             context: microservices/i
-        #ports:
-        #    - "8080:8080"
         links:
             - mariadb
         networks:
@@ -60,14 +57,59 @@ services:
     s:
         build:
             context: microservices/s
-        #ports:
-        #    - "8081:8081"
         links:
             - redis
         networks:
             cnalan:
               aliases:
                 - s
+    b:
+        build:
+            context: microservices/b
+        links:
+            - w
+            - rabbit
+        networks:
+            cnalan:
+              aliases:
+                - b
+    p:
+        build:
+            context: microservices/p
+        networks:
+            cnalan:
+              aliases:
+                - p
+    w:
+        build:
+            context: microservices/w
+        networks:
+            cnalan:
+              aliases:
+                - w
+    w1:
+        build:
+            context: microservices/w1
+        links:
+          - rabbit
+          - redis
+        networks:
+            cnalan:
+              aliases:
+                - w1
+    w2:
+        build:
+            context: microservices/w2
+        links:
+          - rabbit
+        environment:
+          - W2_APIKEY=key-blabla
+          - W2_TO=mail@bla
+          - W2_DOMAIN=mydomain
+        networks:
+            cnalan:
+              aliases:
+                - w2
 networks:
     cnalan:
         driver: bridge
