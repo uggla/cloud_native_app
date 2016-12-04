@@ -1,33 +1,73 @@
 version: "2"
 services:
     rabbit:
-        container_name: rabbit
+      #container_name: rabbit
         image:
             rabbitmq
         ports:
-            - "5672:5672"
+          #    - "5672:5672"
             - "15672:15672"
         networks:
-            dcklan:
+            cnalan:
                 aliases:
                     - rabbit
     redis:
-        container_name: redis
+      #  container_name: redis
         image:
             redis
-        ports:
-            - "6379:6379"
+        #ports:
+        #    - "6379:6379"
         networks:
-            dcklan:
+            cnalan:
                 aliases:
                     - redis
+    mariadb:
+      #  container_name: mariadb
+        image:
+            mariadb
+        volumes:
+          - ./microservices/i/dump/:/docker-entrypoint-initdb.d
+        environment:
+          - MYSQL_ROOT_PASSWORD=toto
+          - MYSQL_DATABASE=prestashop
+          - MYSQL_USER=prestashop
+          - MYSQL_PASSWORD=prestashop1234
+        networks:
+            cnalan:
+                aliases:
+                    - mariadb
+    web:
+        build:
+            context: web
+        ports:
+            - "80:80"
+        links:
+          - i
+          - s
+        networks:
+            cnalan:
+    i:
+        build:
+            context: microservices/i
+        #ports:
+        #    - "8080:8080"
+        links:
+            - mariadb
+        networks:
+            cnalan:
+              aliases:
+                - i
     s:
         build:
             context: microservices/s
-        ports:
-            - "8081:8081"
+        #ports:
+        #    - "8081:8081"
+        links:
+            - redis
         networks:
-            dcklan:
+            cnalan:
+              aliases:
+                - s
 networks:
-    dcklan:
+    cnalan:
         driver: bridge

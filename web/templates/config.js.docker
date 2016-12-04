@@ -1,0 +1,10 @@
+/**
+ * Set service url
+ *
+ */
+
+var srvIurl = "http://localhost/srvi/user/"
+var srvSurl = "http://localhost/srvs/user/"
+var srvBurl = "http://localhost/srvb/user/"
+var srvPurl = "http://localhost/srvp/user/"
+

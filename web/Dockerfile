@@ -4,8 +4,12 @@ RUN apt-get update && \
 apt-get install -y apache2
 COPY index.html /var/www/html/
 COPY js /var/www/html/js/
+COPY templates/cna.conf.docker /etc/apache2/sites-available/cna.conf
+COPY templates/config.js.docker /var/www/html/js/config.js
 RUN chown -R www-data:www-data /var/www/html
 RUN /usr/sbin/a2dissite 000-default
-#RUN sed -i -e 's/redishost=.*/redishost=redis/' /home/s/s.conf
+# Configure reverse proxy
+RUN /usr/sbin/a2enmod proxy_http
+RUN /usr/sbin/a2ensite cna
 EXPOSE 80
 CMD ["/usr/sbin/apache2ctl", "-DFOREGROUND", "-k", "start"]
