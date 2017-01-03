@@ -6,6 +6,7 @@
 import os
 import sys
 import datetime
+import time
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -92,16 +93,26 @@ except KeyError:
     print("W2_TO : with your mail recipient")
     sys.exit(1)
 
-
-if conf.get_w2_rabbithost() == 'localhost':
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=conf.get_w2_rabbithost()))
-else:
-    credentials = pika.PlainCredentials(conf.get_w2_rabbitlogin(),
-                                        conf.get_w2_rabbitpassword())
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(credentials=credentials,
-                                  host=conf.get_w2_rabbithost()))
+timeout = 0
+while 1:
+    try:
+        if conf.get_w2_rabbithost() == 'localhost':
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(host=conf.get_w2_rabbithost()))
+        else:
+            credentials = pika.PlainCredentials(conf.get_w2_rabbitlogin(),
+                                                conf.get_w2_rabbitpassword())
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(credentials=credentials,
+                                          host=conf.get_w2_rabbithost()))
+        break
+    except pika.exceptions.ConnectionClosed:
+        print("Waiting rabbitmq server for 10 more seconds.")
+        time.sleep(10)
+        timeout += 10
+        if timeout >= 30:
+            print('ERROR: Rabbitmq is not available !')
+            sys.exit(1)
 
 channel = connection.channel()
 

@@ -7,6 +7,7 @@ import os
 import sys
 import io
 import datetime
+import time
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -70,15 +71,26 @@ logger = initialize_logger("w1.log", "nolog", logging.DEBUG)
 logger.info("*** Starting worker w1 ***")
 conf = config.Configuration("w1.conf")
 
-if conf.get_w1_rabbithost() == 'localhost':
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=conf.get_w1_rabbithost()))
-else:
-    credentials = pika.PlainCredentials(conf.get_w1_rabbitlogin(),
-                                        conf.get_w1_rabbitpassword())
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(credentials=credentials,
-                                  host=conf.get_w1_rabbithost()))
+timeout = 0
+while 1:
+    try:
+        if conf.get_w1_rabbithost() == 'localhost':
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(host=conf.get_w1_rabbithost()))
+        else:
+            credentials = pika.PlainCredentials(conf.get_w1_rabbitlogin(),
+                                                conf.get_w1_rabbitpassword())
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(credentials=credentials,
+                                          host=conf.get_w1_rabbithost()))
+        break
+    except pika.exceptions.ConnectionClosed:
+        print("Waiting rabbitmq server for 10 more seconds.")
+        time.sleep(10)
+        timeout += 10
+        if timeout >= 30:
+            print('ERROR: Rabbitmq is not available !')
+            sys.exit(1)
 
 channel = connection.channel()
 
