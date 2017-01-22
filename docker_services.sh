@@ -2,12 +2,20 @@
 
 # Script to run the CNA as docker services on swarm
 
+#
+# You need to provide your Registry address here:
+#REGISTRY=uggla
+REGISTRY=lab7-2.labossi.hpintelco.org:5000
+
 # Start vizualizer on port 8080
+which docker-machine 2>&1 > /dev/null
+if [ $? -ne 0]; then
+	ENVOPT=""
+else
+	ENVOPT="-e HOST=$(docker-machine ls | head -2 | grep -v NAME | awk '{print $5}' | sed 's#tcp://##' | sed 's#:2376##') -e PORT=8080"
 docker ps | grep visualizer
-if [ $? -ne 0]
-then
-    docker run -it -d -p 8080:8080 -e HOST=$(docker-machine ls | head -2 | grep -v NAME | awk '{print $5}' | sed 's#tcp://##' | sed 's#:2376##') \
-        -e PORT=8080 -v /var/run/docker.sock:/var/run/docker.sock --name visualizer  manomarks/visualizer
+if [ $? -ne 0]; then
+    docker run -it -d -p 8080:8080 $ENVOPT -v /var/run/docker.sock:/var/run/docker.sock --name visualizer  manomarks/visualizer
 fi
 
 # Check if the overlay network is available
@@ -31,29 +39,29 @@ docker service create --name mariadb --network cnalan \
     --env MYSQL_PASSWORD=prestashop1234 mariadb  # need to manage dump
 
 docker service create --name web --network cnalan --publish 80:80 \
-    uggla/cloudnativeapp_web
+    $REGISTRY/cloudnativeapp_web
 
 docker service create --name i --network cnalan \
-    uggla/cloudnativeapp_i
+    $REGISTRY/cloudnativeapp_i
 
 docker service create --name s --network cnalan \
-    uggla/cloudnativeapp_s
+    $REGISTRY/cloudnativeapp_s
 
 docker service create --name b --network cnalan \
-    uggla/cloudnativeapp_b
+    $REGISTRY/cloudnativeapp_b
 
 docker service create --name p --network cnalan \
-    uggla/cloudnativeapp_p
+    $REGISTRY/cloudnativeapp_p
 
 docker service create --name w --network cnalan \
-    uggla/cloudnativeapp_w
+    $REGISTRY/cloudnativeapp_w
 
 docker service create --name w1 --network cnalan \
-    uggla/cloudnativeapp_w1
+    $REGISTRY/cloudnativeapp_w1
 
 docker service create --name w2 --network cnalan \
     --env W2_APIKEY=blakey \
     --env W2_TO=machin@bidule.com \
     --env W2_DOMAIN=domain \
-    uggla/cloudnativeapp_w2
+    $REGISTRY/cloudnativeapp_w2
 
