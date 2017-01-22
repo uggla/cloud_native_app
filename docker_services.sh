@@ -8,60 +8,77 @@
 REGISTRY=lab7-2.labossi.hpintelco.org:5000
 
 # Start vizualizer on port 8080
-which docker-machine 2>&1 > /dev/null
-if [ $? -ne 0]; then
+which docker-machine > /dev/null 2>&1 
+if [ $? -ne 0 ]; then
 	ENVOPT=""
 else
 	ENVOPT="-e HOST=$(docker-machine ls | head -2 | grep -v NAME | awk '{print $5}' | sed 's#tcp://##' | sed 's#:2376##') -e PORT=8080"
-docker ps | grep visualizer
-if [ $? -ne 0]; then
+fi
+
+docker ps | grep visualizer > /dev/null 2>&1 
+if [ $? -ne 0 ]; then
     docker run -it -d -p 8080:8080 $ENVOPT -v /var/run/docker.sock:/var/run/docker.sock --name visualizer  manomarks/visualizer
 fi
 
 # Check if the overlay network is available
-docker network list | grep cnalan
-if [ $? -ne 0 ]
-then
+docker network list | grep -E " cnalan " > /dev/null 2>&1
+if [ $? -ne 0 ]; then
     docker network create --driver overlay cnalan
 fi
 
-docker service create --name rabbit --publish 15672:15672 \
+svc=`docker service ls | grep -E " rabbit "`
+if [ _"$svc" = _"" ]; then
+	docker service create --name rabbit --publish 15672:15672 \
     --env RABBITMQ_DEFAULT_USER=stackrabbit \
     --env  RABBITMQ_DEFAULT_PASS=password \
     --network cnalan rabbitmq:3-management
+fi
 
-docker service create --name redis --network cnalan redis
+svc=`docker service ls | grep -E " redis "`
+if [ _"$svc" = _"" ]; then
+	docker service create --name redis --network cnalan redis
+fi
 
-docker service create --name mariadb --network cnalan \
+svc=`docker service ls | grep -E " mariadb "`
+if [ _"$svc" = _"" ]; then
+	docker service create --name mariadb --network cnalan \
     --env MYSQL_ROOT_PASSWORD=toto \
     --env MYSQL_DATABASE=prestashop \
     --env MYSQL_USER=prestashop \
     --env MYSQL_PASSWORD=prestashop1234 mariadb  # need to manage dump
+fi
 
-docker service create --name web --network cnalan --publish 80:80 \
-    $REGISTRY/cloudnativeapp_web
+# Build images if not done yet
+for a in web i b p w w1 w2; do
+	img=`docker images | grep -E "^cloudnativeapp_$a "`
+	if [ _"$img" = _"" ]; then
+		docker-compose up -d
+	fi
+done
 
-docker service create --name i --network cnalan \
-    $REGISTRY/cloudnativeapp_i
+# Push images in Registry if not done yet
+for a in web i b p w w1 w2; do
+	img=`docker images | grep -E "^$REGISTRY/cloudnativeapp_$a "`
+	if [ _"$img" = _"" ]; then
+		docker tag cloudnativeapp_$a $REGISTRY/cloudnativeapp_$a
+		docker push $REGISTRY/cloudnativeapp_$a
+	fi
+done
 
-docker service create --name s --network cnalan \
-    $REGISTRY/cloudnativeapp_s
+# Launch services - Should be replaced by docker-compose v3 once available
+for a in web i b p w w1 w2; do
+	if [ $a = "web" ]; then
+		OPT="--publish 80:80"
+	elif [ $a = "w2" ]; then
+		OPT="--env W2_APIKEY=blakey --env W2_TO=machin@bidule.com --env W2_DOMAIN=domain"
+	else
+		OPT=""
+	fi
 
-docker service create --name b --network cnalan \
-    $REGISTRY/cloudnativeapp_b
+	svc=`docker service ls | grep -E " $a "`
+	if [ _"$svc" = _"" ]; then
+		docker service create --name $a --network cnalan $OPT $REGISTRY/cloudnativeapp_$a
+	fi
+done
 
-docker service create --name p --network cnalan \
-    $REGISTRY/cloudnativeapp_p
-
-docker service create --name w --network cnalan \
-    $REGISTRY/cloudnativeapp_w
-
-docker service create --name w1 --network cnalan \
-    $REGISTRY/cloudnativeapp_w1
-
-docker service create --name w2 --network cnalan \
-    --env W2_APIKEY=blakey \
-    --env W2_TO=machin@bidule.com \
-    --env W2_DOMAIN=domain \
-    $REGISTRY/cloudnativeapp_w2
-
+docker service ls
