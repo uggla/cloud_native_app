@@ -1,9 +1,9 @@
 FROM debian:jessie
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
-apt-get install -y python3
-RUN apt-get install -y python3-redis sed
+RUN apt-get update
+RUN apt-get install -y python3 
 RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-redis sed
 RUN pip3 install -U pip
 RUN pip3 install pika
 RUN pip3 install python-swiftclient

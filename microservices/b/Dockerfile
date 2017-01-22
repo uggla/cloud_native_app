@@ -1,8 +1,9 @@
 FROM debian:jessie
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
-apt-get install -y python3 python3-flask
+RUN apt-get update
+RUN apt-get install -y python3
 RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-flask
 RUN pip3 install pika
 RUN useradd b
 COPY config.py b.conf b.py /home/b/
