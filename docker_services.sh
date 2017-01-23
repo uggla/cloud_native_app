@@ -30,7 +30,7 @@ svc=`docker service ls | grep -E " rabbit "`
 if [ _"$svc" = _"" ]; then
 	docker service create --name rabbit --publish 15672:15672 \
     --env RABBITMQ_DEFAULT_USER=stackrabbit \
-    --env  RABBITMQ_DEFAULT_PASS=password \
+    --env RABBITMQ_DEFAULT_PASS=password \
     --network cnalan rabbitmq:3-management
 fi
 
@@ -39,17 +39,8 @@ if [ _"$svc" = _"" ]; then
 	docker service create --name redis --network cnalan redis
 fi
 
-svc=`docker service ls | grep -E " mariadb "`
-if [ _"$svc" = _"" ]; then
-	docker service create --name mariadb --network cnalan \
-    --env MYSQL_ROOT_PASSWORD=toto \
-    --env MYSQL_DATABASE=prestashop \
-    --env MYSQL_USER=prestashop \
-    --env MYSQL_PASSWORD=prestashop1234 mariadb  # need to manage dump
-fi
-
 # Build images if not done yet
-for a in web i b p w w1 w2; do
+for a in web i b p w w1 w2 db; do
 	img=`docker images | grep -E "^cloudnativeapp_$a "`
 	if [ _"$img" = _"" ]; then
 		docker-compose up -d
@@ -57,7 +48,7 @@ for a in web i b p w w1 w2; do
 done
 
 # Push images in Registry if not done yet
-for a in web i b p w w1 w2; do
+for a in web i b p w w1 w2 db; do
 	img=`docker images | grep -E "^$REGISTRY/cloudnativeapp_$a "`
 	if [ _"$img" = _"" ]; then
 		docker tag cloudnativeapp_$a $REGISTRY/cloudnativeapp_$a
@@ -66,11 +57,13 @@ for a in web i b p w w1 w2; do
 done
 
 # Launch services - Should be replaced by docker-compose v3 once available
-for a in web i b p w w1 w2; do
+for a in web i b p w w1 w2 db; do
 	if [ $a = "web" ]; then
 		OPT="--publish 80:80"
 	elif [ $a = "w2" ]; then
 		OPT="--env W2_APIKEY=blakey --env W2_TO=machin@bidule.com --env W2_DOMAIN=domain"
+	elif [ $a = "db" ]; then
+    	OPT="--env MYSQL_ROOT_PASSWORD=toto --env MYSQL_DATABASE=prestashop --env MYSQL_USER=prestashop --env MYSQL_PASSWORD=prestashop1234" 
 	else
 		OPT=""
 	fi

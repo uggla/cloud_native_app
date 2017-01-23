@@ -1,0 +1,11 @@
+version: "2"
+services:
+    db:
+        build:
+            context: .
+        container_name: db
+        environment:
+            - MYSQL_ROOT_PASSWORD=plusbeton
+            - MYSQL_DATABASE=prestashop
+            - MYSQL_USER=prestashop
+            - MYSQL_PASSWORD=prestashop1234

@@ -19,11 +19,9 @@ services:
             cnalan:
                 aliases:
                     - redis
-    mariadb:
-        image:
-            mariadb
-        volumes:
-          - ./microservices/i/dump/:/docker-entrypoint-initdb.d
+    db:
+        build:
+            context: db
         environment:
           - MYSQL_ROOT_PASSWORD=toto
           - MYSQL_DATABASE=prestashop
@@ -32,7 +30,7 @@ services:
         networks:
             cnalan:
                 aliases:
-                    - mariadb
+                    - db
     web:
         build:
             context: web
@@ -49,7 +47,7 @@ services:
         build:
             context: microservices/i
         links:
-            - mariadb
+            - db
         networks:
             cnalan:
               aliases:
