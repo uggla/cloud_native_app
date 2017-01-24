@@ -5,7 +5,17 @@
 #
 # You need to provide your Registry address here:
 #REGISTRY=uggla
-REGISTRY=lab7-2.labossi.hpintelco.org:5000
+REGISTRY=lab7-2.labossi.hpintelco.org:5500
+KEYSTONE=labossi.hpintelco.org
+WEB=`hostname`
+
+# Patch the javascript for the internal URLs to use 
+# the swarm leader as an entry point for internal micro-services
+sed "s/localhost/$WEB/" `dirname $0`/web/templates/config.js.docker
+
+# Patch the p and w1 conf files to point to the SWIFT instance
+sed "s/keystone/$KEYSTONE/" `dirname $0`/microservices/p/p.conf
+sed "s/keystone/$KEYSTONE/" `dirname $0`/microservices/w1/w1.conf
 
 # Start vizualizer on port 8080
 which docker-machine > /dev/null 2>&1 
