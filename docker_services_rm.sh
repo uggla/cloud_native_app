@@ -8,16 +8,10 @@
 REGISTRY=lab7-2.labossi.hpintelco.org:5500
 KEYSTONE=labossi.hpintelco.org
 WEB=`hostname`
-
-# Check if the overlay network is available
-docker network list | grep -E " cnalan " > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    docker network rm cnalan
-fi
-
 svc=`docker service ls | grep -E " rabbit "`
 if [ _"$svc" != _"" ]; then
 	docker service rm rabbit
+fi
 
 svc=`docker service ls | grep -E " redis "`
 if [ _"$svc" != _"" ]; then
@@ -31,5 +25,12 @@ for a in web i b p s w w1 w2 db; do
 		docker service rm $a
 	fi
 done
+
+
+# Check if the overlay network is available
+docker network list | grep -E " cnalan " > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    docker network rm cnalan
+fi
 
 docker service ls
