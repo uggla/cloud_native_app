@@ -24,6 +24,9 @@ class Configuration(object):
     def get_w1_redishost(self):
         return self.config.get("w1", "redishost")
 
+    def get_w1_imagestore(self):
+        return self.config.get("w1", "imagestore")
+
     def get_w1_os_parameters(self):
         parameters = {}
         parameters.update(

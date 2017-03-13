@@ -115,42 +115,40 @@ def callback(ch, method, properties, body):
     r = redis.Redis(conf.get_w1_redishost())
     r.set(data["id"], timestamp.strftime("%c"))
 
-    # Write to swift
-    os_parameters = conf.get_w1_os_parameters()
-    _authurl = os_parameters["os_authurl"]
-    _auth_version = os_parameters["os_auth_version"]
-    _user = os_parameters["os_user"]
-    _key = os_parameters["os_key"]
-    _tenant_name = os_parameters["os_tenant_name"]
+    # Check if we need to write redis or swift
+    if (conf.get_w1_imagestore() == 'redis'):
+        # Write image to redis
+        rediskey = data["id"] + ".txt"
+        r.set(rediskey, data["img"])
+        logger.debug("Data written to redis")
+    else:
+        # Write image to swift
+        os_parameters = conf.get_w1_os_parameters()
+        _authurl = os_parameters["os_authurl"]
+        _auth_version = os_parameters["os_auth_version"]
+        _user = os_parameters["os_user"]
+        _key = os_parameters["os_key"]
+        _tenant_name = os_parameters["os_tenant_name"]
 
-    conn = swiftclient.Connection(
-        authurl=_authurl,
-        user=_user,
-        key=_key,
-        tenant_name=_tenant_name,
-        auth_version=_auth_version
-    )
+        conn = swiftclient.Connection(
+            authurl=_authurl,
+            user=_user,
+            key=_key,
+            tenant_name=_tenant_name,
+            auth_version=_auth_version
+        )
 
-    container_name = 'prices'
-    conn.put_container(container_name)
-
-#    with open('local.txt', 'rb') as local:
-#        conn.put_object(
-#            container_name,
-#            'local_object.txt',
-#            contents=local,
-#            content_type='text/plain'
-#        )
-
-    content = io.BytesIO(data["img"].encode())
-    filename = data["id"] + ".txt"
-    logger.debug("Filename : {}".format(filename))
-    conn.put_object(
-        container_name,
-        filename,
-        contents=content.read(),
-        content_type='text/plain'
-    )
+        container_name = 'prices'
+        conn.put_container(container_name)
+        content = io.BytesIO(data["img"].encode())
+        filename = data["id"] + ".txt"
+        logger.debug("Filename : {}".format(filename))
+        conn.put_object(
+            container_name,
+            filename,
+            contents=content.read(),
+            content_type='text/plain'
+        )
 
     # Acknowledge message
     ch.basic_ack(delivery_tag=method.delivery_tag)

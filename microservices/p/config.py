@@ -31,6 +31,12 @@ class pConfiguration(object):
     def get_p_port(self):
         return self.config.get("p", "port")
 
+    def get_p_redishost(self):
+        return self.config.get("p", "redishost")
+
+    def get_p_imagestore(self):
+        return self.config.get("p", "imagestore")
+
     def get_p_debug(self):
         return self.config.get("p", "debug")
 

@@ -15,6 +15,7 @@ from flask import jsonify
 from flask import request
 import swiftclient
 import config
+import redis
 
 # Initialise Flask
 app = Flask(__name__)
@@ -32,35 +33,48 @@ def api_play(id):
     os = config.p.conf_file.get_p_os_parameters()
     config.logger.debug(os)
 
-    # Read from swift
-    conn = swiftclient.Connection(
-        authurl=os["os_authurl"],
-        user=os["os_user"],
-        key=os["os_key"],
-        tenant_name=os["os_tenant_name"],
-        auth_version=os["os_auth_version"],
-        retries=2
-    )
-
-    container_name = 'prices'
     data = {"status": "ko"}  # Set something for status
-    try:
-        conn.put_container(container_name)
-    except swiftclient.exceptions.ClientException:
-        data = {"status": "swiftko"}
 
-    if data["status"] != "swiftko":
-        content = io.BytesIO()
-        filename = id + ".txt"
+    # Check if image should be read from redis or swift
+    if (config.p.conf_file.get_p_imagestore() == 'redis'):
+        # Read from redis
+        r = redis.Redis(config.p.conf_file.get_p_redishost())
+        rediskey = id + ".txt"
+        redisvalue = r.get(rediskey)
+        if redisvalue:
+            data = {"status": "ok", "img": redisvalue.decode("utf-8")}
+            config.logger.debug("id: %s value: %s", id, data)
+    else:
+        # Read from swift
+        conn = swiftclient.Connection(
+            authurl=os["os_authurl"],
+            user=os["os_user"],
+            key=os["os_key"],
+            tenant_name=os["os_tenant_name"],
+            auth_version=os["os_auth_version"],
+            retries=2
+        )
+
         container_name = 'prices'
-
-        config.logger.debug("Filename : %s", filename)
         try:
-            resp_headers, obj_contents = conn.get_object(container_name, filename)
-            content.write(obj_contents)
-            data = {"status": "ok", "img": content.getvalue().decode("utf-8")}
+            conn.put_container(container_name)
         except swiftclient.exceptions.ClientException:
-            data = {"status": "ko"}
+            data = {"status": "swiftko"}
+
+        if data["status"] != "swiftko":
+            content = io.BytesIO()
+            filename = id + ".txt"
+            container_name = 'prices'
+
+            config.logger.debug("Filename : %s", filename)
+            try:
+                resp_headers, obj_contents = conn.get_object(container_name,
+                                                             filename)
+                content.write(obj_contents)
+                data = {"status": "ok", "img": content.getvalue().decode(
+                    "utf-8")}
+            except swiftclient.exceptions.ClientException:
+                data = {"status": "ko"}
 
     resp = jsonify(data)
     resp.status_code = 200

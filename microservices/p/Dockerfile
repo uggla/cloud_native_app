@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get install -y python3 
 RUN apt-get install -y python3-pip
 RUN apt-get install -y python3-flask
+RUN apt-get install -y python3-redis sed
 RUN pip3 install -U pip
 RUN pip3 install python-swiftclient
 RUN pip3 install python-keystoneclient
