@@ -25,6 +25,7 @@ sed -i "s/##MYSQL_PASSWORD##/$MYSQL_PASSWORD/" docker-compose-v3.yml
 sed -i "s/##W2_APIKEY##/$W2_APIKEY/" docker-compose-v3.yml
 sed -i "s/##W2_TO##/$W2_TO/" docker-compose-v3.yml
 sed -i "s/##W2_DOMAIN##/$W2_DOMAIN/" docker-compose-v3.yml
+sed -i "s/##REGISTRY##/$REGISTRY/" docker-compose-v3.yml
 
 # Patch the javascript for the internal URLs to use
 # the swarm leader as an entry point for internal micro-services

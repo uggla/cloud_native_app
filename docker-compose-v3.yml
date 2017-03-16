@@ -20,7 +20,7 @@ services:
                 aliases:
                     - redis
     db:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_db
+        image: ##REGISTRY##/cloudnativeapp_db
         environment:
             - MYSQL_ROOT_PASSWORD=##MYSQL_ROOT_PASSWORD##
             - MYSQL_DATABASE=##MYSQL_DATABASE##
@@ -31,7 +31,7 @@ services:
                 aliases:
                     - db
     web:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_web
+        image: ##REGISTRY##/cloudnativeapp_web
         ports:
             - "80:80"
         links:
@@ -42,7 +42,7 @@ services:
         networks:
             cnalan:
     i:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_i
+        image: ##REGISTRY##/cloudnativeapp_i
         links:
             - db
         networks:
@@ -50,7 +50,7 @@ services:
               aliases:
                 - i
     s:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_s
+        image: ##REGISTRY##/cloudnativeapp_s
         links:
             - redis
         networks:
@@ -58,7 +58,7 @@ services:
               aliases:
                 - s
     b:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_b
+        image: ##REGISTRY##/cloudnativeapp_b
         links:
             - w
             - rabbit
@@ -67,19 +67,19 @@ services:
               aliases:
                 - b
     p:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_p
+        image: ##REGISTRY##/cloudnativeapp_p
         networks:
             cnalan:
               aliases:
                 - p
     w:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_w
+        image: ##REGISTRY##/cloudnativeapp_w
         networks:
             cnalan:
               aliases:
                 - w
     w1:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_w1
+        image: ##REGISTRY##/cloudnativeapp_w1
         links:
           - rabbit
           - redis
@@ -88,7 +88,7 @@ services:
               aliases:
                 - w1
     w2:
-        image: ${REGISTRY-127.0.0.1:5000}/cloudnativeapp_w2
+        image: ##REGISTRY##/cloudnativeapp_w2
         links:
           - rabbit
         environment:
