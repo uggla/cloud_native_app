@@ -18,15 +18,21 @@ W2_DOMAIN=domain
 
 
 # Patch docker-compose-v3.yaml to pass our variables
-sed -i "s/##MYSQL_ROOT_PASSWORD##/$MYSQL_ROOT_PASSWORD/g" docker-compose-v3.yml
+sed -i "s/##MYSQL_ROOT_PASSWORD##/$MYSQL_ROOT_PASSWORD/" docker-compose-v3.yml
+sed -i "s/##MYSQL_DATABASE##/$MYSQL_DATABASE/" docker-compose-v3.yml
+sed -i "s/##MYSQL_USER##/$MYSQL_USER/" docker-compose-v3.yml
+sed -i "s/##MYSQL_PASSWORD##/$MYSQL_PASSWORD/" docker-compose-v3.yml
+sed -i "s/##W2_APIKEY##/$W2_APIKEY/" docker-compose-v3.yml
+sed -i "s/##W2_TO##/$W2_TO/" docker-compose-v3.yml
+sed -i "s/##W2_DOMAIN##/$W2_DOMAIN/" docker-compose-v3.yml
 
 # Patch the javascript for the internal URLs to use
 # the swarm leader as an entry point for internal micro-services
-sed "s/localhost/$WEB/" `dirname $0`/web/templates/config.js.docker
+sed -i "s/localhost/$WEB/" `dirname $0`/web/templates/config.js.docker
 
 # Patch the p and w1 conf files to point to the SWIFT instance
-sed "s/keystone/$KEYSTONE/" `dirname $0`/microservices/p/p.conf
-sed "s/keystone/$KEYSTONE/" `dirname $0`/microservices/w1/w1.conf
+sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/p/p.conf
+sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/w1/w1.conf
 
 # Start vizualizer on port 8080
 which docker-machine > /dev/null 2>&1 
