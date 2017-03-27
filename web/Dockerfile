@@ -4,6 +4,8 @@ RUN apt-get update
 RUN apt-get install -y apache2
 COPY index.html /var/www/html/
 COPY js /var/www/html/js/
+COPY css /var/www/html/css/
+COPY img /var/www/html/img/
 COPY templates/cna.conf.docker /etc/apache2/sites-available/cna.conf
 COPY templates/config.js.docker /var/www/html/js/config.js
 RUN chown -R www-data:www-data /var/www/html

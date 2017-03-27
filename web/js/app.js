@@ -30,7 +30,7 @@ $( document ).ready(function() {
 
 function play(){
 	console.log("Play clicked !");
-	$("#srvBstatus").html("Defining your price, please wait...");
+	$("#srvBstatus").html('<img src="/img/waiting.gif" alt="wait" style="width:20px;height:20px;"> Defining your price, please wait...');
 	srvB = new Service();
 	srvB.ajax(B, srvBurl + id);
 }
@@ -65,7 +65,7 @@ function I(status, response)
 		}
 		else{
 			var answer = '';
-			answer += '<table id="userdata">';
+			answer += '<table class="table"  id="userdata">';
 			answer += '<tr>';
 			answer += '<td>Id</td><td>' + response.id + '</td>';
 			answer += '</tr>';
@@ -117,9 +117,7 @@ function B(status, response)
 	if (status=="ok"){
 		// Craft the answer.
 		if (response.status=="ok"){
-			$("#srvBstatus").html("Refresh the page to see your price.")
-			$("#srvBstatus").addClass("topmsg")
-			$("#play").prop("disabled", true)
+            location.reload();
 		}
 	}
 	else{
@@ -133,7 +131,7 @@ function P(status, response)
 		// Craft the answer.
 		if (response.status=="ok"){
 			var answer = '';
-			answer += '<img src="data:image/jpg;base64,';
+			answer += '<img class="img-responsive" src="data:image/jpg;base64,';
 			answer += response.img;
 			answer += '" width="900px">'
 			console.log(answer)
