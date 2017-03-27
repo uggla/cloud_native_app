@@ -48,14 +48,13 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cloud Native Application<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Service i</a></li>
-                <li><a href="#">Service s</a></li>
-                <li><a href="#">Service b</a></li>
-                <li><a href="#">Service p</a></li>
+                <li><a href="#srvItitle">Service i</a></li>
+                <li><a href="#srvStitle">Service s</a></li>
+                <li><a href="#srvBtitle">Service b</a></li>
+                <li><a href="#srvPtitle">Service p</a></li>
               </ul>
             </li>
-            {% block navmenu %}
-            {% endblock %}
+            <!-- Navbar content -->
           </ul>
           <p class="navbar-text navbar-right">
           </p>
@@ -65,23 +64,23 @@
     </nav>
     <div class="container">
       <div class="srvI">
-        <h1>Service Identification (i)</h1>
+        <h1 id="srvItitle">Service Identification (i)</h1>
         <div id="srvIstatus"></div>
       </div>
 
       <div class="srvS">
-        <h1>Service Status (s)</h1>
+        <h1 id="srvStitle">Service Status (s)</h1>
         <div id="srvSstatus"></div>
       </div>
 
       <div class="srvB">
-        <h1>Service Button (b)</h1>
+        <h1 id="srvBtitle">Service Button (b)</h1>
         <button class="btn btn-primary "type="button" id="play">Play !</button>
         <div id="srvBstatus"></div>
       </div>
 
       <div class="srvP">
-        <h1>Service Picture (p)</h1>
+        <h1 id="srvPtitle">Service Picture (p)</h1>
         <div id="srvPstatus"></div>
       </div>
     </div>
