@@ -9,7 +9,12 @@ $( document ).ready(function() {
 	console.log("id=" + id);
 	console.log("forceplay=" + forceplay);
 	if (id=='' || id==null){
-		$("body").html("Please provide a user id !");
+        var html = '<div id=provide>';
+        html += '<h1>Please provide a user id !</h1>';
+        html += '<p><input type="text" id="submitinput" value="1"></p>';
+        html += '<p><button class="btn btn-primary" id="submitid" onClick="provideid()">Submit</button></p>';
+        html += '</div>';
+		$("#content").html(html);
 		$("body").css({"opacity":"100"});
 	}
 	else{
@@ -26,6 +31,16 @@ $( document ).ready(function() {
 		play();
 	}
 });
+
+function provideid()
+{
+console.log($('#submitinput').val())
+if ($("#submitinput").val()){
+    location.href += '?id=' + $("#submitinput").val();
+    location.replace();
+    }
+
+}
 
 
 function play(){
