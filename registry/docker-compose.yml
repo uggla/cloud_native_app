@@ -1,0 +1,23 @@
+version: "2"
+services:
+    web:
+        build:
+            context: .
+        ports:
+            - "80:80"
+        volumes:
+          - ./certs:/home/pki/srv
+        environment:
+          - PUBFQDN=
+        hostname: $PUBFQDN
+    registry:
+        image:
+          registry:2
+        ports:
+            - "5500:5000"
+        environment:
+            - REGISTRY_HTTP_TLS_CERTIFICATE=certs/repo.crt
+            - REGISTRY_HTTP_TLS_KEY=certs/repo.key
+        volumes:
+          - ./certs:/certs
+        restart: always
