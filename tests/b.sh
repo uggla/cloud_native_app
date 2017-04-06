@@ -9,7 +9,7 @@
 
 for i in $(seq $2 $3)
 do
-	curl $1/user/$i &
+	curl $1/srvb/user/$i &
 done
 
 wait
