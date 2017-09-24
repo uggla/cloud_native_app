@@ -4,9 +4,10 @@ Cloud Native Application
 This document purpose is to describe the Cloud Native Application training described below and which is in particular delivered to ENSIMAG IS students in 2016 and 2017.
 
 Document writers:
-Bruno.Cornec@hpe.com
-Rene.Ribaud@dxc.com
-Christophe.Larsonneur@dxc.com
+
+ * Bruno.Cornec@hpe.com
+ * Rene.Ribaud@dxc.com
+ * Christophe.Larsonneur@dxc.com
 
 # Overview of the Assessment
 
@@ -18,10 +19,10 @@ The goal of this document is to describe the use case that will be used for the 
 
 The main OpenStack entry point is at http://www.openstack.org
 
-v1.0:	2016-09-29 - First version
-v1.1:	2016-11-28 - Update with grade per part
-v1.2:	2017-01-16 - Update with evaluation method
-v2.0:   2017-09-25 - More focus on the DevOps life-cycle
+ * v1.0:	2016-09-29 - First version
+ * v1.1:	2016-11-28 - Update with grade per part
+ * v1.2:	2017-01-16 - Update with evaluation method
+ * v2.0:	2017-09-25 - More focus on the DevOps life-cycle
 
 # Customer Story
 
@@ -166,36 +167,7 @@ Questions will be asked to:
 
 | Points | Topic to evaluate |
 | ------ | ----------------- |
-| 4      | **For Dev team**
- * On Gihub: 
-   * Heat template/ansible playbooks/scripts for dev group
-   * Performance and tests results
-   * Application code
- * Application design document
- * Present the automatic deployment of the application in a new empty tenant and make reliability checks.|
-| 4      | **For Infra team** - Additional IaaS platform:
- * available
- * operational
- * with the mandatory components
- * and optional ones needed by the development teams
- * On Gihub: 
-   * Heat template/ansible playbooks/scripts for Infra group|
-| 6      | 
- * 1 Web page with 5 parts/micro-services: I, S, B, W and P. Work independently of each other
- * I(dentification) service: receives http request from customer (link with customer ID) and look for it into DB
- * S(tatus) service: detect whether customer already played or not, status stored in the DB.
- * B(utton) service: button widget allowing the customer to play. Only when not already done.
- * W(orker) service that computes whether the customer won or not (provided), called by B. If won, post an image representing what has been won into OpenStack Swift with customer ID. Then post by e-mail via an external provider a message to admins (using a message bus if possible). Button is gray if the customer has already played.
- * P(icture) service: Look into Swift with customer ID to display the image of the customer, empty if no image.
-|
-| 10      | 
- * IaaS platform chosen is OpenStack. The install has to provide the following services: Nova, Glance, Keystone, Cinder, Swift, Heat, Neutron. One tenant per group has to be created. 2 users (user, account used for automation and admin) have to be created per tenant.
- * The W micro-service cannot be changed by the students.
- * Each part of the web page has to be implemented as a micro-service
- * Ability to redeploy the application on another tenant or another OpenStack instance.
- * DB should be persistent with regards to VMs failures.
- * DB and W service should be on a separate private network
- * Application should be publicly available on the external network. Only http[s] (ports 80 and 443) will be available from outside.
- * Application should support nicely the death of any one of the 5 micro-services and manage scalability
- * All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). App should be deployed from Git up to the infra
-|
+| **4**  | **For Dev team**<br><ul><li>On Gihub:</li><ul><li>Heat template/ansible playbooks/scripts for dev group</li><li>Performance and tests results</li><li>Application code</li></ul><li>Application design document</li><li>Present the automatic deployment of the application in a new empty tenant and make reliability checks.</li></ul>|
+| **4**  | **For Infra team** - Additional IaaS platform:<br><ul><li>available</li><li>operational</li><li>with the mandatory components</li><li>and optional ones needed by the development teams</li><li>On Gihub:</li><li>Heat template/ansible playbooks/scripts for Infra group</li>|
+| **6**  | <ul><li>1 Web page with 5 parts/micro-services: I, S, B, W and P. Work independently of each other</li><li>I(dentification) service: receives http request from customer (link with customer ID) and look for it into DB</li><li>S(tatus) service: detect whether customer already played or not, status stored in the DB.</li><li>B(utton) service: button widget allowing the customer to play. Only when not already done.</li><li>W(orker) service that computes whether the customer won or not (provided), called by B. If won, post an image representing what has been won into OpenStack Swift with customer ID. Then post by e-mail via an external provider a message to admins (using a message bus if possible). Button is gray if the customer has already played.</li><li>P(icture) service: Look into Swift with customer ID to display the image of the customer, empty if no image..</li></ul> |
+| **10** | <ul><li>IaaS platform chosen is OpenStack. The install has to provide the following services: Nova, Glance, Keystone, Cinder, Swift, Heat, Neutron. One tenant per group has to be created. 2 users (user, account used for automation and admin) have to be created per tenant.</li><li>The W micro-service cannot be changed by the students.</li><li>Each part of the web page has to be implemented as a micro-service</li><li>Ability to redeploy the application on another tenant or another OpenStack instance.</li><li>DB should be persistent with regards to VMs failures.</li><li>DB and W service should be on a separate private network</li><li>Application should be publicly available on the external network. Only http[s] (ports 80 and 443) will be available from outside.</li><li>Application should support nicely the death of any one of the 5 micro-services and manage scalability.</li><li>All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). App should be deployed from Git up to the infra.</li></ul>|
