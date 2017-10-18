@@ -171,3 +171,92 @@ Questions will be asked to:
 | **4**  | **For Infra team** - Additional IaaS platform:<br><ul><li>available</li><li>operational</li><li>with the mandatory components</li><li>and optional ones needed by the development teams</li><li>On Gihub:</li><li>Heat template/ansible playbooks/scripts for Infra group</li>|
 | **6**  | <ul><li>1 Web page with 5 parts/micro-services: I, S, B, W and P. Work independently of each other</li><li>I(dentification) service: receives http request from customer (link with customer ID) and look for it into DB</li><li>S(tatus) service: detect whether customer already played or not, status stored in the DB.</li><li>B(utton) service: button widget allowing the customer to play. Only when not already done.</li><li>W(orker) service that computes whether the customer won or not (provided), called by B. If won, post an image representing what has been won into OpenStack Swift with customer ID. Then post by e-mail via an external provider a message to admins (using a message bus if possible). Button is gray if the customer has already played.</li><li>P(icture) service: Look into Swift with customer ID to display the image of the customer, empty if no image..</li></ul> |
 | **10** | <ul><li>IaaS platform chosen is OpenStack. The install has to provide the following services: Nova, Glance, Keystone, Cinder, Swift, Heat, Neutron. One tenant per group has to be created. 2 users (user, account used for automation and admin) have to be created per tenant.</li><li>The W micro-service cannot be changed by the students.</li><li>Each part of the web page has to be implemented as a micro-service</li><li>Ability to redeploy the application on another tenant or another OpenStack instance.</li><li>DB should be persistent with regards to VMs failures.</li><li>DB and W service should be on a separate private network</li><li>Application should be publicly available on the external network. Only http[s] (ports 80 and 443) will be available from outside.</li><li>Application should support nicely the death of any one of the 5 micro-services and manage scalability.</li><li>All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). App should be deployed from Git up to the infra.</li></ul>|
+
+
+
+# Howto create your bastion vm on prod environment
+
+# Connection :
+1. Connect using openvpn.
+2. Connect to the Openstack Dashboard.
+IP du dashboard OpenStack de prod (Helion):
+3. To log use : http://10.11.50.26
+    * domain : default
+    * user name : groupeX    (X = number of your group)
+    * password : The password for your group that you should have received by mail.
+
+At that step, you shoud be connected in your respective tenant (groupeX) with a fresh environment.
+You need to create a minimal infrastructure, a bastion server using the dashboard.
+
+This openstack has a lot more services than the one we used in the first session. (note that swift and cinder are not yet available which is a problem only for service P and B)
+The neutron network service is available, and you will have to use it to create your networks that will host the bastion server.
+
+## Create a private network:
+
+1. Open the menu and click on network then choose networks subitem.
+2. Create a new network.
+    * Name : you can use whatever name, but as an example we will use "private"
+    * Subnet name : private_subnet
+    * Network address : CIDR of your network, you can choose what you want, here as an example we can use 10.0.1.0/24.
+    * Gateway : 10.0.1.254
+    * In subnet details just provide the DNS : 10.11.50.1
+
+This will be your private network, we will deploy our admin VMs inside that network.
+You can see there is another network called external-network. This network is a public one. It will be used to provide access to VM from the outside by mapping a floating ip.
+However before that, we need to connect private network and external network with a router.
+
+## Create a router:
+
+1. Open the menu and click on network then choose routers subitem.
+2. Create a router
+    * Name : router1  (as an example)
+    * External network : external-network
+3. Click on the router1 just created and add an interface to the private network.
+4. You can verify in network topology that you have a router in beetween external network and internal one.
+
+Now the networking should be in place.
+
+# Create your bastion (admin) server and access it :
+
+1. Deploy a new vm via the dashboard (launch a new instance)
+    * Name: bastion
+    * Image: Fedora or Ubuntu (the one you prefer, they have both recent openstack tools)
+    * Flavor: m1.small
+    * Network: private1  (not the external)
+    * Security group: default
+    * Key pair: Generate your keypair or provide your ssh pub key.
+
+2. Associate a floating ip to your server (via compute --> Accès & Sécurité --> IP flottantes)
+This is a bit tricky, you need first to allocate a floating ip (this will give you an IP on the external network)
+Then you will associate this external ip to your bastion VM on the private network.
+
+Ex : in the instance dashboard you should see in the IP column :
+VM name :bastion
+
+    10.0.1.5
+
+Floating IPs:
+
+    10.11.50.71
+
+
+3. Open the menu and click on compute then choose access and security subitem.
+4. Manage the default security group to allow Ingress ssh(port 22)
+5. You should be able to log on your vm using the floating ip and the ssh key created before.   (please ask if you need assistance with ssh)
+    Ex: ssh fedora@10.11.50.71
+
+6. You can install the openstack client to manage the API and do automation. (assuming there is no errors in the above parts)
+Ex: dnf install python-openstackclient    --> this will install a recent version of the openstack client on Fedora
+7. Get your openrc files by opening the menu and click on compute then choose access and security subitem and menu API access.
+Here you can download a rcfile that will give you all the settings to connect to your environment.
+You just need to source that file to export the OS* required environment variables.
+
+Note :
+Consider the default security group as your admin subnet. Restrict access to it to only ssh.
+Applications should be deployed in their respective networks and corresponding security groups.
+
+Advice 1 : do not create a lot of security groups, you will become crazy managing them. A good approach is to map a security group per network and open the required ports.
+
+Advice 2 : look at the orchestration part and mostly service heat. Sounds like an easy way to deploy stuff although not mandatory.
+
+Advice 3 : using IP is painfull in a cloud environment, prefer names.
