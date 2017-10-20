@@ -1,13 +1,14 @@
 Cloud Native Application
 ========================
 
-This document purpose is to describe the Cloud Native Application training described below and which is in particular delivered to ENSIMAG IS students in 2016 and 2017.
+This document purpose is to describe the Cloud Native Application training described below and which is in particular delivered to ENSIMAG IS students in 2017 and 2018.
 
 Document writers:
 
  * Bruno.Cornec@hpe.com
- * Rene.Ribaud@dxc.com
  * Christophe.Larsonneur@dxc.com
+ * Vincent.Misson@hpe.com
+ * Rene.Ribaud@dxc.com
 
 # Overview of the Assessment
 
@@ -23,71 +24,78 @@ The main OpenStack entry point is at http://www.openstack.org
  * v1.1:	2016-11-28 - Update with grade per part
  * v1.2:	2017-01-16 - Update with evaluation method
  * v2.0:	2017-09-25 - More focus on the DevOps life-cycle
+ * v2.1:	2017-10-20 - Review to match 2017 expectations
 
 # Customer Story
 
 ## Objectives
 
-The goal of this training is to realize a promotional lottery for an e-commerce site
-
-## Details
-
-Customers of a big e-commerce site will receive a promotional email with a link to earn a price if they are lucky. The application should detect whether the player already played or not, and whether he won already or not. Each status should be kept with the date when it was performed. The application will provide a button allowing the customer to play, in case he didn't already, and the result of the computation which will happen behind the scene will give to the customer the nature of the article he has won, and display the corresponding image in the interface. Mails will be sent to admins when a winner is found.
-
-Practitioners will first have to automate the management of a virtual infrastructure (Infrastructure as code concept). Within this part we are using Openstack as our Infrastructure as a Service platform (IaaS) but this is an implementation choice. The same principles can be implemented on top of another IaaS platform like Eucalyptus, Cloudstack, Amazon AWS, Azure, Docker. The teachers team will provide two physical infrastructures for that purpose, one which will be pre-installed with an OpenStack distribution in which a tenant per group of student will be available for application development, and another one (set of 15 servers) which will be pre-installed with just a CentOS 7 Operating System. Students will configure the IaaS part on top of it to study the various components that they want to test. 
-
-This part will be **evaluated on 4 points**.
-
-Then they will have to create a cloud native application to support the marketing activity. That application will consist of:
- * 1 Web page with 5 parts/micro-services: I, S, B, W and P.
- * I(dentification) service: receives http request from customer (link with customer ID) and look for it into DB (script to build it provided separately by teachers team).
- * S(tatus) service: detect whether customer already played or not, status stored in the DB. (DB choice left to students - HA to be seen). Can have a message bus to buffer requests.
- * B(utton) service: button widget allowing the customer to play. Only when not already done.
- * W(orker) service that computes whether the customer won or not (slow service provided by the teachers team with a REST API interface), called by B. If won, post an image representing what has been won into OpenStack Swift with customer ID. Then post by e-mail via an external provider a message to admins (using a message bus if possible). Button is gray if the customer has already played.
- * P(icture) service: Look into Swift with customer ID to display the image of the customer, empty if no image.
-
-This part will be **evaluated on 6 points**.
-
-The content provided by the teachers team will be referenced on the etherpad used to follow the exchanges on the project (https://etherpad.openstack.org/p/ENSIMAG_2017)
+The goal of this training is to build the software factory that will do Continuous Integration and Continuous Deployment of a cloud native application.
+The application is a lottery for an e-commerce site. This is an open source application.
 
 ## Goals & constraints
 
-The app must have the following goals & constraints:
+### Goals
+As a company, the idea is to leverage an open source cloud native application to use it internally. Because the application is a cloud native one and will have to be frequently improved, the choice is to use the devops methodology to maintain this application into production.
 
- 1. IaaS platform chosen is OpenStack. The install has to provide the following services: Nova, Glance, Keystone, Cinder, Swift, Heat, Neutron. One tenant per group has to be created. 2 users (user, account used for automation and admin) have to be created per tenant.
- 2. The W micro-service is a third party software (provided by the teachers team) and cannot be changed by the students.
- 3. Each part of the web page has to be implemented as a micro-service.
- 4. Using automation, students should be able to redeploy their application on another tenant or another OpenStack instance. (Think to initial conditions, some steps can still remain manual).
- 5. DB should be persistent with regards to VMs failures.
- 6. DB and W service should be on a separate private network.
- 7. Application should be publicly available on the external network. Only http[s] (ports 80 and 443) will be available from outside.
- 8. Application should support nicely the death of any one of the 5 micro-services. (Page should still be displayed anyway, printing N/A is OK, having an error isn't). As well it should be scalable in case of insufficient resources.
- 9. All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). App should be deployed from Git up to the infra, with either ansible, heat, or any other automation tool/script.
+As a consequence, practitioners will first have to:
+ * Organize the team to work using devops best practices.
+ * Automate the management of a virtual infrastructure (Infrastructure as code concept). Within this part we are using Openstack as our Infrastructure as a Service platform (IaaS) but this is an implementation choice. The same principles can be implemented on top of another IaaS platform like Eucalyptus, Cloudstack, Amazon AWS, Azure, Docker. 
+ * Build production environment, the teachers team will provide two physical infrastructures for that purpose, one which will be pre-installed with an OpenStack distribution in which a tenant per group of student will be available for application development, and another one (set of 15 servers) which will be pre-installed with just a CentOS 7 Operating System. Students will configure the IaaS part on top of it to study the various components that they want to test.
+ * Define and implement a CICD pipeline to easily test and deploy the application to staging area then production.
+ * Put in place tooling to share/track application changes beetween team members/customers.
+ * Ensure correct level of security within the factory. (no private keys or data available publicly, user access restriction, ports filtering...)
 
-This part will be **evaluated on 10 points** (automation will be particularly important)
+### Constraints
+ * Application should only expose http[s] (ports 80 and 443) to the external network.
+ * All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). Please note that your github history should reflect changes to the factory/infrastructure/application. Also, you should commit properly with a your personal credentials (email preferred) with a unique account.
+ * There is no restriction regarding the tools to implement the pipeline. It could be external services and/or on premise tools. However, be prepared to justify some choices.
 
-## Bonus goals and constraints
+## Bonus goals
+ * Put in place monitoring to ensure application in working as expected.
+ * Put in place name resolution.
+ * Improve applications.
+ * Optimize testing duration.
+ * Communication dashboard  about application health to users.
+ * Performance of the application improvement by scaling services.
+ * Application reliability.
 
-In addition, the app may have the following goals & constraints:
+# Application information
 
- 1. The DB info should resist to failure and not loose records (Using a message bus e.g. to handle failures).
- 2. The application provided has some latency. Use OpenStack to scale it up (message bus/ha proxy) in order to be able to exceed the 4 reqs on a lapse of 10 seconds. A LBaaS (Load Balancer as a Service) can also be used and provided as part of the solution.
- 3. Monitoring, Security, Error case, Full HA, Full install/conf automation, Automatic Scalability.
+## Application schema
+![applicaiton schema](schema/archi_docker.png)
 
-This part will be **evaluated on 4 additional bonus points**.
+
+## Application description
+
+ * 1 Web + reverse proxy provides a page with 5 visible parts/micro-services: I, S, B, W and P.
+ * I(dentification) service: receives http request from customer (link with customer ID) and look for it into DB.
+ * S(tatus) service: detect whether customer already played or not, status stored in the DB.
+ * B(utton) service: button widget allowing the customer to play. Only when not already done.
+ * W(orker) service that computes whether the customer won or not, called by B. If won, post an image representing what has been won into OpenStack Swift or Redis with customer ID. Then post by e-mail via an external provider a message to admins using a message bus. This service is povided by a 3rd party, so it can not be changed. As this service is really slow, scaling it should be considered.
+ * P(icture) service: Look into Swift or Redis with customer ID to display the image of the customer, empty if no image.
+ * Redis or Swift can be used to store data.
+ * Rabbitmq is used to pass message from service B to service W1 and W2.
+ * W1 services that listen on the messaging bus and write to the database.
+ * W2 services that listen on the messaging bus and send http requests to mailgun external services.
+
+## Application materials (code, doc etc...)
+https://github.com/uggla/cloud_native_app
+
 
 ## Deliverables
 
- * On Gihub: 
-   * Heat template/ansible playbooks/scripts for Infra group
-   * Performance and tests results
-   * Application code
- * Application design document
- * Present the (almost !) automatic deployment of the application in a new empty tenant and make reliability checks.
+ * On Gihub:
+   * Pipeline design documents.
+   * Application code.
+   * Heat template/ansible playbooks/scripts for Infra group.
+
+ * Video that will present the CICD of the application in a new empty tenant.
 
 ## Teachers support
 
-Teachers will provide a remote access to the pre-production platform (set of servers preinstalled with a CentOS 7 distribution) that the IaaS team will have to setup from an OpenStack perspective and deliver so the DevOps teams could deploy their application on it. Teachers will also provide a production platform running an OpenStack distribution as a development environment for the application developers for testing purposes. 
+Teachers will provide a remote access to the production platform (set of servers preinstalled with a CentOS 7 distribution) that the team will have to setup from an OpenStack perspective and deliver teams could deploy their application on it. Teachers will also provide a pre-production platform running an OpenStack distribution as a development environment for the application developers for testing purposes.
+
 A mailing list has been created to provide remote support to students during the whole period. Various people will so be available to answer questions and help with regards to platform setup and access. The mailing-list address is ensimag-openstack@lists.osp.hpe.com 
 
 # Agenda
@@ -96,19 +104,20 @@ Each session is 3 hours long
 
 ## First session
 
- * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). The goal is to provide a cloud native application, providing redundancy and scalability, using an OpenStack infrastructure. No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup.
+ * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup.
  * Cloud fundamentals: IaaS  (Bruno)
- * OpenStack architecture & example (Bruno )
- * DevStack installation - stackrc + env var - image shared between groups (on ENSIMAG systems - nested with prepared VM or BM in B10) (Jérôme - Alexis - René)
+ * OpenStack architecture & example (Bruno)
  * Production platform exaplanation (Bruno)
- * Home work: 
+ * OpenVPN setup
+ * Waystation creation (see below)  --> pb need group defined.
+ * Home work:
    * Continue to explore OpenStack from both UI & CLI
    * Create 9 groups of 5 students (one country per group), assign specialization (ops, devs, middleware, ... + backup), tool choice left to students, but licensing should be correct (prefer Open Source)
 
 ## Second session
 
  * Cloud fundamentals: DevOps (Christophe)
- * 12 factors apps - micro services (Nicolas)
+ * Application overview (René)
  * Infrastructure as Code: OpenStack API as TD
  * Project explanation: Architecture of the use case - Specifications - Design Constraints & Goals (GitHub, automation, )
  * Home work: Continue to explore OpenStack API (Dev), Start Prod Infra setup
