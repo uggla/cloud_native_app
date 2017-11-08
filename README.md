@@ -40,7 +40,7 @@ As a company, the idea is to leverage an open source cloud native application to
 
 As a consequence, practitioners will first have to:
  * Organize the team to work using devops best practices.
- * Automate the management of a virtual infrastructure (Infrastructure as code concept). Within this part we are using Openstack as our Infrastructure as a Service platform (IaaS) but this is an implementation choice. The same principles can be implemented on top of another IaaS platform like Eucalyptus, Cloudstack, Amazon AWS, Azure, Docker. 
+ * Automate the management of a virtual infrastructure (Infrastructure as code concept). Within this part we are using Openstack as our Infrastructure as a Service platform (IaaS) but this is an implementation choice. The same principles can be implemented on top of another IaaS platform like Eucalyptus, Cloudstack, Amazon AWS, Azure, Docker.
  * Build production environment, the teachers team will provide two physical infrastructures for that purpose, one which will be pre-installed with an OpenStack distribution in which a tenant per group of student will be available for application development, and another one (set of 15 servers) which will be pre-installed with just a CentOS 7 Operating System. Students will configure the IaaS part on top of it to study the various components that they want to test.
  * Define and implement a CICD pipeline to easily test and deploy the application to staging area then production.
  * Put in place tooling to share/track application changes beetween team members/customers.
@@ -96,7 +96,7 @@ https://github.com/uggla/cloud_native_app
 
 Teachers will provide a remote access to the production platform (set of servers preinstalled with a CentOS 7 distribution) that the team will have to setup from an OpenStack perspective and deliver teams could deploy their application on it. Teachers will also provide a pre-production platform running an OpenStack distribution as a development environment for the application developers for testing purposes.
 
-A mailing list has been created to provide remote support to students during the whole period. Various people will so be available to answer questions and help with regards to platform setup and access. The mailing-list address is ensimag-openstack@lists.osp.hpe.com 
+A mailing list has been created to provide remote support to students during the whole period. Various people will so be available to answer questions and help with regards to platform setup and access. The mailing-list address is ensimag-openstack@lists.osp.hpe.com
 
 # Agenda
 
@@ -104,10 +104,10 @@ Each session is 3 hours long
 
 ## First session
 
- * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup.
- * Cloud fundamentals: IaaS  (Bruno)
+ * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup. (Christophe / René)
  * OpenStack architecture & example (Bruno)
- * Production platform exaplanation (Bruno)
+ * Docker (Bruno)
+ * Production platform explanation (Vincent)
  * OpenVPN setup
  * Waystation creation (see below)  --> pb need group defined.
  * Home work:
@@ -116,7 +116,7 @@ Each session is 3 hours long
 
 ## Second session
 
- * Cloud fundamentals: DevOps (Christophe)
+ * Devops fundamentals (Christophe)
  * Application overview (René)
  * Infrastructure as Code: OpenStack API as TD
  * Project explanation: Architecture of the use case - Specifications - Design Constraints & Goals (GitHub, automation, )
@@ -161,7 +161,7 @@ First you'll have to redeploy the full stack at start of the evaluation on the i
 
 Before the evaluation, the systems used to perform the demonstration (OpenStack based infrastructure) should be ready to avoid loosing time in setup phase and concentrate on demo and explanations. Bastion should preexist, as well as the stack.
 
-Then, the functional evaluation will be done on that infrastructure with explanation of choices, methods and tools used. 
+Then, the functional evaluation will be done on that infrastructure with explanation of choices, methods and tools used.
 
  * Plan to have a backup video.
  * A presentation to explain the major steps and choices might be useful, but not mandatory
