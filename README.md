@@ -36,10 +36,18 @@ The application is a lottery for an e-commerce site. This is an open source appl
 ## Goals & constraints
 
 ### Goals
-As a company, the idea is to leverage an open source cloud native application to use it internally. Because the application is a cloud native one and will have to be frequently improved, the choice is to use the devops methodology to maintain this application into production.
+You are in a company which achieved an aggressive deal with a Customer to leverage an open source cloud native application and use it internally.
+
+You as a new team are in charge to deliver and maintain the application in production in your customer environment.
+The custoner gave you 3 major objectives:
+ - The application is an open source cloud native application
+ - The customer cloud production environment must be Openstack
+ - Any feature/bug request must be in production quickly, with quality.
+
+To answer to customer need, your team choose to use the DevOps methodology to deploy and maintain this application into production in the customer company.
 
 As a consequence, practitioners will first have to:
- * Organize the team to work using devops best practices.
+ * Organize the team to work using DevOps best practices.
  * Automate the management of a virtual infrastructure (Infrastructure as code concept). Within this part we are using Openstack as our Infrastructure as a Service platform (IaaS) but this is an implementation choice. The same principles can be implemented on top of another IaaS platform like Eucalyptus, Cloudstack, Amazon AWS, Azure, Docker.
  * Build production environment, the teachers team will provide two physical infrastructures for that purpose, one which will be pre-installed with an OpenStack distribution in which a tenant per group of student will be available for application development, and another one (set of 15 servers) which will be pre-installed with just a CentOS 7 Operating System. Students will configure the IaaS part on top of it to study the various components that they want to test.
  * Define and implement a CICD pipeline to easily test and deploy the application to staging area then production.
@@ -116,7 +124,7 @@ Each session is 3 hours long
 
 ## Second session
 
- * Devops fundamentals (Christophe)
+ * DevOps fundamentals (Christophe)
  * Application overview (René)
  * Infrastructure as Code: OpenStack API as TD
  * Project explanation: Architecture of the use case - Specifications - Design Constraints & Goals (GitHub, automation, )
