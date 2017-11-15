@@ -282,9 +282,10 @@ not public
 | **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>upstream relationship</li></ul> |
 
 
-# Howto create your bastion vm on prod environment
+# Howto create your bastion vm on Reference environment
 
-# Connection :
+## Connection :
+
 1. Connect using openvpn.
 2. Connect to the Openstack Dashboard.
 IP du dashboard OpenStack de prod (Helion):
@@ -324,7 +325,7 @@ However before that, we need to connect private network and external network wit
 
 Now the networking should be in place.
 
-# Create your bastion (admin) server and access it :
+## Create your bastion (admin) server and access it :
 
 1. Deploy a new vm via the dashboard (launch a new instance)
     * Name: bastion
