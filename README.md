@@ -38,8 +38,8 @@ the application in production in your new customer environment.
 The customer gave you 4 major objectives:
  - The application is an open source cloud native application:
     lottery for an e-commerce site
- - The customer requires the production environment to be Openstack cloud
-     The customer won't install or maintain it. This will one of your task.
+ - The customer requires the production environment to be Openstack cloud based.
+     The customer won't install or maintain it. This will be one of your task.
  - Any feature/bug request must be in production quickly, with control &
     quality.
  - You will have 7 weeks to deliver the application on the customer Hardware.
@@ -50,8 +50,8 @@ The customer gave you 4 major objectives:
 The Customer will give you 2 servers pre-installed with CentOS 7, to deliver
 the application in production.
 
-Your company gives you an access to an openstack tenant to develop your
-environment (factory).
+Your company gives you an access to an OpenStack setup hosting a tenant
+to develop your environment (factory).
 
 ## Objectives
 
@@ -61,20 +61,30 @@ The goal of this training is to build a software factory to do:
 - Continuous Integration
 - Continuous Deployment of a cloud native application.
 
+Co-related goals are:
+- Ensure security.
+- improve team work.
+
 
 ## Goals & constraints
 
 ### Goals
 
-To answer to customer need, your team choose to use the **DevOps **methodology
-to deploy and maintain this application in production in the customer company HW.
+To answer to customer need, your team choose to use the **DevOps**
+method/approach/best practices to deploy and maintain this application
+in production in the customer company HW.
 
 As a consequence, practitioners will first have to:
  * Organize the team to work using DevOps best practices.
- * Automate the management of a virtual infrastructure (Infrastructure as code concept). Your customer requires to use Openstack as Infrastructure as a Service platform (IaaS)
- * Define and implement a CICD pipeline to easily test and deploy the application to staging area then production.
- * Put in place tooling to share/track application changes between team members/customers.
- * Ensure correct level of security within the factory. (no private keys or data available publicly, user access restriction, ports filtering...)
+ * Automate the management of a virtual infrastructure (Infrastructure
+    as code concept). Your customer requires the use/usage Openstack as
+    Infrastructure as a Service platform (IaaS)
+ * Define and implement a CICD pipeline to easily test and deploy the
+    application to staging area then production.
+ * Put in place tooling to share/track application changes between team
+    members/customers.
+ * Ensure correct level of security within the factory. (no private keys
+    or data available publicly, user access restriction, ports filtering...)
 
 ### Constraints
  * Application should only expose http[s] (ports 80 and 443) to the external network.
@@ -129,7 +139,7 @@ https://github.com/uggla/cloud_native_app
     The feature or fix requested can come from the opensource project.
 
 *Note*: A complex feature or bug fix could be delivered several times,
-improving the application between each delivery. Your customer do not
+improving the application between each delivery. Your customer does not
 require this to be delivered just once. They prefer to see changes frequently.
   But the overall application service must not be impacted by such update.
 
@@ -143,14 +153,15 @@ require this to be delivered just once. They prefer to see changes frequently.
 
 Teachers will provide a remote access (though VPN) to :
 
-* the *customer production platform*
+* the *customer production platform* (known as *Production environment*)
     (2 servers pre-installed with a CentOS 7 distribution)
     Your development team will have to setup them with an OpenStack as
     requested by the customer
     Your development team will deploy the customer application and application
     health control on it.
 
-* a runnable *company Openstack tenant* to install your software factory.
+* a runnable *company Openstack tenant* (known as *Referenced environment*)
+    to install your software factory.
     In this factory, you will be able to
     * develop anything requested by your customers, or proposed by your team
         for improvement/bug fix.
@@ -167,7 +178,7 @@ Your teachers will take and behave with 2 different roles:
     your application.
     <br>to contact your customer: ...
 
-- *Your company IT* who host your openstack tenant.
+- *Your company IT* who hosts your openstack tenant.
     <br>To contact your company IT team: ...
 
 When you contact *your customer* or *your company*, remind your group number.
@@ -191,7 +202,8 @@ Each session is 3 hours long
  * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup. (Christophe / René)
  * OpenStack architecture & example (Bruno)
  * Docker (Bruno)
- * *Customer Production* platform explanation (Vincent)
+ * *Customer Production* (known as Reference Environment) platform
+    explanation (Vincent)
  * OpenVPN setup
  * Waystation creation (see below)  --> pb need group defined.
  * Home work:
@@ -209,7 +221,7 @@ Each session is 3 hours long
 
 ## Third session
 
-* Team member role and responsibility. Assigning tasks... Who do what?
+* Team member role and responsibility. Assigning tasks... Who does what?
     The customer like to see that...
 * Design and implement a flow to develop and deliver application architecture
 * Prod infra setup continued: Ability to launch a VM from an image using a heat template, attached to a network and a storage, and an object storage. private and public net are available and a floating IP attached to the VM.
