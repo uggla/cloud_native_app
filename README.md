@@ -171,7 +171,9 @@ Teachers will provide a remote access (though VPN) to :
 
 * the *customer production platform* (known as *Production environment*)
     (2 servers pre-installed with a CentOS 7 distribution)
+
     Your development team will have to setup them with (packstack)[https://www.rdoproject.org/install/packstack/.
+
     Your development team will deploy the customer application and application
     health control on it.
 
