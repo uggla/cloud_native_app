@@ -30,7 +30,8 @@ The main OpenStack entry point is at http://www.openstack.org
 # Project Story
 
 You are in a company which achieved an aggressive deal with a Customer
-to leverage an open source cloud native application and use it internally.
+to leverage an open source cloud native application and use it internally
+for their customers.
 
 With a new team, you are in charge to deliver and maintain
 the application in production in your new customer environment.
