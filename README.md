@@ -44,13 +44,13 @@ The customer gave you 4 major objectives:
     quality.
  - You will have 7 weeks to deliver the application on the customer Hardware.
    Before that date, the environment won't be considered as production
-   and can be re-build from scratch, anytime. Just contact the customer
+   and can be re-built from scratch, anytime. Just contact the customer
    to do it.
 
 The Customer will give you 2 servers pre-installed with CentOS 7, to deliver
 the application in production.
 
-Your company gives you an access to an OpenStack setup hosting a tenant
+Your company gives you an access to a reference OpenStack setup hosting a tenant
 to develop your environment (factory).
 
 ## Objectives
