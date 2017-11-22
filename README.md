@@ -39,7 +39,7 @@ The customer gave you 4 major objectives:
  - The application is an open source cloud native application:
     lottery for an e-commerce site
  - The customer requires the production environment to be Openstack cloud based.
-     The customer won't install or maintain it. This will be one of your task.
+     The customer won't install or maintain it. This will be one of your tasks.
  - Any feature/bug request must be in production quickly, with control &
     quality.
  - You will have 7 weeks to deliver the application on the customer Hardware.
