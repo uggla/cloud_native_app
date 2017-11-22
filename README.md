@@ -59,11 +59,11 @@ The goal of this training is to build a software factory to do:
 - Continuous Improvement
 - Continuous Testing
 - Continuous Integration
-- Continuous Deployment of a cloud native application.
+- Continuous Deployment of a cloud native application
 
 Co-related goals are:
-- Ensure security.
-- improve team work.
+- Ensure security
+- Improve team work
 
 
 ## Goals & constraints
@@ -77,10 +77,10 @@ in production in the customer company HW.
 As a consequence, practitioners will first have to:
  * Organize the team to work using DevOps best practices.
  * Automate the management of a virtual infrastructure (Infrastructure
-    as code concept). Your customer requires the use/usage Openstack as
-    Infrastructure as a Service platform (IaaS)
+    as code concept). Your customer requires the use/usage of Openstack as
+    an Infrastructure as a Service platform (IaaS)
  * Define and implement a CICD pipeline to easily test and deploy the
-    application to staging area then production.
+    application to a staging area then to production.
  * Put in place tooling to share/track application changes between team
     members/customers.
  * Ensure correct level of security within the factory. (no private keys
@@ -88,23 +88,30 @@ As a consequence, practitioners will first have to:
 
 ### Constraints
  * Application should only expose http[s] (ports 80 and 443) to the external network.
- * All materials should be kept on public git repository (github e.g.) with an Open Source license (Cf: https://opensource.org/licenses prefer the popular ones). Please note that your github history should reflect changes to the factory/infrastructure/application. Also, you should commit properly with a your personal credentials (email preferred) with a unique account.
- * There is no restriction regarding the tools to implement the pipeline. It could be external services and/or on premise tools. However, be prepared to justify some choices.
+ * All materials should be kept on public git repository (github, gitlab,
+    framasoft e.g.) with an Open Source license (Cf: https://opensource.org/licenses
+    prefer the popular ones). Please note that your git history should
+    reflect changes to the factory/infrastructure/application. Also, you
+    should commit properly with your personal credentials (email
+    preferred) with a unique account.
+ * There is no restriction regarding the tools to implement the pipeline.
+  It could be external services and/or on premise tools. However, be
+  prepared to justify some choices.
 
 ## Bonus goals
- * Put in place monitoring to ensure application in working as expected.
+ * Put in place monitoring to ensure applications are working as expected.
  * Put in place name resolution.
  * Improve applications.
  * Optimize testing duration.
- * Communication dashboard  about application health to users.
- * Performance of the application improvement by scaling services.
- * Application reliability.
- * Contribute back to the opensource project
+ * Communication dashboard about applications health to users.
+ * Performance improvement of your application by scaling services.
+ * Applications reliability.
+ * Contribute back to the Open Source project
 
 # Application information
 
 ## Application schema
-![applicaiton schema](schema/archi_docker.png)
+![application schema](schema/archi_docker.png)
 
 
 ## Application description
@@ -121,22 +128,26 @@ As a consequence, practitioners will first have to:
  * W2 services that listen on the messaging bus and send http requests to mailgun external services.
 
 ## Application materials (code, doc etc...)
+Here is the url of the Open Source project:
 https://github.com/uggla/cloud_native_app
 
 
 ## Deliverables
 
  * On Github:
-   * Pipeline design documents and code.
-   * Application code.
-   * infrastructure code (Heat template/ansible playbooks/scripts).
-
- * Video that will present the CICD of the application in a new empty tenant.
+   * Pipeline design documents and code
+   * Application code
+   * Infrastructure code (Heat template/ansible playbooks/scripts).
 
  * Your software factory should be ready to deliver a patch or a feature
     requested by your customer.
-    This delivery will be in production in less than a day.
-    The feature or fix requested can come from the opensource project.
+    This delivery will be in production during the exam.
+    The feature or fix requested can come from the upstream Open Source
+    project.
+
+ * As a backup, a video that will present the CICD of the application in
+    a new empty tenant and a customer patch to show the factory end to end.
+
 
 *Note*: A complex feature or bug fix could be delivered several times,
 improving the application between each delivery. Your customer does not
@@ -146,21 +157,24 @@ require this to be delivered just once. They prefer to see changes frequently.
   In the context of this training, no complex feature or bug fix will be
   requested by your teachers.
 
+*Another Note*: github is mandatory for the delivery. However, you can
+use any other scm solutions to meet your needs. But you must update
+regularly the github repo with **history**
+
 ## Teachers interaction with students
 
 
-### Hardware
+### Platforms
 
 Teachers will provide a remote access (though VPN) to :
 
 * the *customer production platform* (known as *Production environment*)
     (2 servers pre-installed with a CentOS 7 distribution)
-    Your development team will have to setup them with an OpenStack as
-    requested by the customer
+    Your development team will have to setup them with (packstack)[https://www.rdoproject.org/install/packstack/.
     Your development team will deploy the customer application and application
     health control on it.
 
-* a runnable *company Openstack tenant* (known as *Referenced environment*)
+* a runnable *company Openstack tenant* (known as *Reference environment*)
     to install your software factory.
     In this factory, you will be able to
     * develop anything requested by your customers, or proposed by your team
@@ -174,24 +188,26 @@ Teachers will provide a remote access (though VPN) to :
 Your teachers will take and behave with 2 different roles:
 
 - *Customer representative*.
-    He will support the 2 Productions system that you will use to deliver
+    He will support the 2 Production systems that you will use to deliver
     your application.
-    <br>to contact your customer: ...
+    <br>to contact your customer, use the mailing list :
+    ensimag-customer@lists.osp.hpe.com
 
 - *Your company IT* who hosts your openstack tenant.
-    <br>To contact your company IT team: ...
+    <br>To contact your company IT team, use the mailing list:
+    ensimag-internal@lists.osp.hpe.com
 
 When you contact *your customer* or *your company*, remind your group number.
 
 ### Training support
 
-Outside of these roles that your teacher will have, you can get support on
+Outside of these roles that your teachers will have, you can get support on
 the overall training subject, by mail or during the different sessions, to:
 * Ask question,
 * Get help (VPN Access, platform setup, expertise)
 * Discuss
 
-The mailing list is:  ensimag-openstack@lists.osp.hpe.com
+The mailing list is:  ensimag-discuss@lists.osp.hpe.com
 
 # Agenda
 
@@ -254,7 +270,7 @@ Each session is 3 hours long
 
 # Evaluation
 
-Evaluation will be 30' per group.
+Evaluation will be 25' Maximum per group including 5' for Q&A.
 You will present :
 - application ecosystem architecture
 - factory architecture
@@ -267,12 +283,13 @@ You will present :
 Then, the functional evaluation will be done on architecture with
 explanation of choices, methods and tools used.
 
- * Plan to have a backup video.
- * A presentation to explain the major steps and choices might be useful, but not mandatory
+ * Reminder: Plan to have a backup video.
+ * A presentation to explain the major steps and choices might be useful,
+    but not mandatory
 
-Send all deliverables planned in advance of the evaluation to allow time
-for teachers to look at them. Think to provide access if your project is
-not public
+Send all deliverable planned in advance of the evaluation (before 7th session)
+to allow time for teachers to look at them. Think to provide access if
+your project is not public.
 
 | Points | Topic to evaluate |
 | ------ | ----------------- |
@@ -288,7 +305,7 @@ not public
 
 1. Connect using openvpn.
 2. Connect to the Openstack Dashboard.
-IP du dashboard OpenStack de prod (Helion):
+    Reference OpenStack dashboard IP:
 3. To log use : http://10.11.50.26
     * domain : default
     * user name : groupeX    (X = number of your group)
