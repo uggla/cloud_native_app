@@ -88,7 +88,7 @@ As a consequence, practitioners will first have to:
     or data available publicly, user access restriction, ports filtering...)
 
 ### Constraints
- * Application should only expose http[s] (ports 80 and 443) to the external network.
+ * Application should only expose http\[s] (ports 80 and 443) to the external network.
  * All materials should be kept on public git repository (github, gitlab,
     framasoft e.g.) with an Open Source license (Cf: https://opensource.org/licenses
     prefer the popular ones). Please note that your git history should
@@ -221,7 +221,7 @@ Each session is 3 hours long
  * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup. (Christophe / René)
  * OpenStack architecture & example (Bruno)
  * Docker (Bruno)
- * *Customer Production* (known as Reference Environment) platform
+ * *Company Openstack tenant* (known as Reference Environment) platform
     explanation (Vincent)
  * OpenVPN setup
  * Waystation creation (see below)  --> pb need group defined.
