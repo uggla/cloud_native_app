@@ -297,9 +297,9 @@ your project is not public.
 | Points | Topic to evaluate |
 | ------ | ----------------- |
 | **5**  | **Dev team**<br><ul><li>On Gihub:</li><ul><li>Automation code to test and deploy</li><li>Performance and tests results</li><li>Application code</li></ul><li>Application design document</li><li>Present the automatic deployment of the application in a tenant and make reliability checks.</li></ul>|
-| **5**  | **Factory (Ops) team**<br><ul><li>available</li><li>operational</li><li>with the mandatory components</li><li>and optional ones needed by the development teams</li><li>On Gihub:</li><li>Heat template/ansible playbooks/scripts for Infra group</li>|
-| **5**  | **Production services**<br><ul><li>Application still working, independently<br>Support for failure and scalability</li><li>Self healing</li><li>monitoring</li></ul> |
-| **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>upstream relationship</li></ul> |
+| **5**  | **Factory (Ops) team**<br><ul><li>Available</li><li>Operational</li><li>With the mandatory components (Agile/CI/CD/...)</li><li>And optional ones needed by the development teams</li><li>On Gihub:</li><ul><li>Heat templates/ansible playbooks/scripts for Infra group</li></ul>|
+| **5**  | **Production services**<br><ul><li>Production IaaS up and running based en packstack</li><li>Application still working, independently<br>Support for failure and scalability</li><li>Self healing</li><li>Monitoring</li></ul> |
+| **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>Upstream relationship</li></ul> |
 
 
 # Howto create your bastion vm on Reference environment
