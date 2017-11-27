@@ -302,16 +302,15 @@ your project is not public.
 | **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>Upstream relationship</li></ul> |
 
 
-# Howto create your bastion vm on Reference environment
+# How to create your bastion vm on Reference environment
 
 ## Connection :
 
 1. Connect using openvpn.
 2. Connect to the Openstack Dashboard.
     Reference OpenStack dashboard IP:
-3. To log use : http://10.11.50.26
-    * domain : default
-    * user name : groupeX    (X = number of your group)
+3. To log use : http://10.11.50.7/
+    * user name : LabX    (X = number of your group)
     * password : The password for your group that you should have received by mail.
 
 At that step, you shoud be connected in your respective tenant (groupeX) with a fresh environment.
@@ -326,9 +325,9 @@ The neutron network service is available, and you will have to use it to create 
 2. Create a new network.
     * Name : you can use whatever name, but as an example we will use "private"
     * Subnet name : private_subnet
-    * Network address : CIDR of your network, you can choose what you want, here as an example we can use 10.0.1.0/24.
-    * Gateway : 10.0.1.254
-    * In subnet details just provide the DNS : 10.11.50.1
+    * Network address : CIDR of your network, you can choose what you want, here as an example we can use 192.168.5.0/24.
+    * Gateway IP : by default it will use the first IP of the range
+    * In subnet details just provide the DNS : 10.3.156.12
 
 This will be your private network, we will deploy our admin VMs inside that network.
 You can see there is another network called external-network. This network is a public one. It will be used to provide access to VM from the outside by mapping a floating ip.
@@ -339,9 +338,9 @@ However before that, we need to connect private network and external network wit
 1. Open the menu and click on network then choose routers subitem.
 2. Create a router
     * Name : router1  (as an example)
-    * External network : external-network
+    * External network : public
 3. Click on the router1 just created and add an interface to the private network.
-4. You can verify in network topology that you have a router in beetween external network and internal one.
+4. You can verify in "Network Topology" that you have a router in beetween external network and internal one.
 
 Now the networking should be in place.
 
@@ -350,7 +349,7 @@ Now the networking should be in place.
 1. Deploy a new vm via the dashboard (launch a new instance)
     * Name: bastion
     * Image: Fedora or Ubuntu (the one you prefer, they have both recent openstack tools)
-    * Flavor: m1.small
+    * Flavor: v1.m1.d1
     * Network: private1  (not the external)
     * Security group: default
     * Key pair: Generate your keypair or provide your ssh pub key.
@@ -362,17 +361,17 @@ Then you will associate this external ip to your bastion VM on the private netwo
 Ex : in the instance dashboard you should see in the IP column :
 VM name :bastion
 
-    10.0.1.5
+    192.168.5.5
 
 Floating IPs:
 
-    10.11.50.71
+    10.11.53.15
 
 
 3. Open the menu and click on compute then choose access and security subitem.
 4. Manage the default security group to allow Ingress ssh(port 22)
 5. You should be able to log on your vm using the floating ip and the ssh key created before.   (please ask if you need assistance with ssh)
-    Ex: ssh fedora@10.11.50.71
+    Ex: ssh fedora@10.11.53.15 or ssh ubuntu@10.11.53.15
 
 6. You can install the openstack client to manage the API and do automation. (assuming there is no errors in the above parts)
 Ex: dnf install python-openstackclient    --> this will install a recent version of the openstack client on Fedora
