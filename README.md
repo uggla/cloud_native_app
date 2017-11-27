@@ -88,7 +88,7 @@ As a consequence, practitioners will first have to:
     or data available publicly, user access restriction, ports filtering...)
 
 ### Constraints
- * Application should only expose http[s] (ports 80 and 443) to the external network.
+ * Application should only expose http\[s] (ports 80 and 443) to the external network.
  * All materials should be kept on public git repository (github, gitlab,
     framasoft e.g.) with an Open Source license (Cf: https://opensource.org/licenses
     prefer the popular ones). Please note that your git history should
@@ -221,7 +221,7 @@ Each session is 3 hours long
  * Project explanation: Overall Goals & method (groups, prod platform, TD systems for tests). No formal solution will be directly given, students will have to build the solution by themselves. Many approaches are possible.  The teachers team role will be after the 2 first sessions and generic presentations on all concepts to help them in the realization of that application and its setup. (Christophe / René)
  * OpenStack architecture & example (Bruno)
  * Docker (Bruno)
- * *Customer Production* (known as Reference Environment) platform
+ * *Company Openstack tenant* (known as Reference Environment) platform
     explanation (Vincent)
  * OpenVPN setup
  * Waystation creation (see below)  --> pb need group defined.
@@ -297,9 +297,9 @@ your project is not public.
 | Points | Topic to evaluate |
 | ------ | ----------------- |
 | **5**  | **Dev team**<br><ul><li>On Gihub:</li><ul><li>Automation code to test and deploy</li><li>Performance and tests results</li><li>Application code</li></ul><li>Application design document</li><li>Present the automatic deployment of the application in a tenant and make reliability checks.</li></ul>|
-| **5**  | **Factory (Ops) team**<br><ul><li>available</li><li>operational</li><li>with the mandatory components</li><li>and optional ones needed by the development teams</li><li>On Gihub:</li><li>Heat template/ansible playbooks/scripts for Infra group</li>|
-| **5**  | **Production services**<br><ul><li>Application still working, independently<br>Support for failure and scalability</li><li>Self healing</li><li>monitoring</li></ul> |
-| **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>upstream relationship</li></ul> |
+| **5**  | **Factory (Ops) team**<br><ul><li>Available</li><li>Operational</li><li>With the mandatory components (Agile/CI/CD/...)</li><li>And optional ones needed by the development teams</li><li>On Gihub:</li><ul><li>Heat templates/ansible playbooks/scripts for Infra group</li></ul>|
+| **5**  | **Production services**<br><ul><li>Production IaaS up and running based en packstack</li><li>Application still working, independently<br>Support for failure and scalability</li><li>Self healing</li><li>Monitoring</li></ul> |
+| **5**  | **Project life**<br><ul><li>Improvement/bug fix timeline from dev to prod</li><li>Agile project plan</li><li>ChatOps, Issue tracking, support</li><li>Upstream relationship</li></ul> |
 
 
 # Howto create your bastion vm on Reference environment
