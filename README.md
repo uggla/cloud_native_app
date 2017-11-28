@@ -307,7 +307,7 @@ your project is not public.
 ## Connection :
 
 1. Connect using OpenVPN.
-The lab network uses 
+The lab network uses
 - HPE Blades, for the production environment
 - HPE Moonshot cartridges, for the staging environment
 
@@ -316,6 +316,8 @@ all are located in the HPE Customer Innovation Center and reached through a dedi
 Each students group will receive a Lab number (X) from the instructors team
 
 All students servers receive their fixed-assigned addresses using a DHCP server. In order to connect to them, a VPN is provided. You need to activate that VPN by launching on Linux the following commands:
+
+**WARNING!!** The FTP service will be opened ONLY during the session 1. Keep your keys somewhere else.
 
 ```
 $ mkdir -p ~/lab
@@ -327,11 +329,11 @@ $ wget ftp://ftp.hpecic.net/pub/openvpn/vpnlab2017.conf
 $ sudo openvpn --config vpnlab2017.conf
 ```
 
-For those of you unlucky using a Windows desktop system, then install first wget from http://labossi.hpintelco.net/win/wget.exe or http://labossi.hpintelco.net/win/wget64.exe and then openvpn in case you don't have it from http://openvpn.net/index.php/open-source/downloads.html (internal mirror at http://labossi.hpintelco.net/win/) 
+For those of you unlucky using a Windows desktop system, then install first wget from http://labossi.hpintelco.net/win/wget.exe or http://labossi.hpintelco.net/win/wget64.exe and then openvpn in case you don't have it from http://openvpn.net/index.php/open-source/downloads.html (internal mirror at http://labossi.hpintelco.net/win/)
 
 You need to launch a cmd command as **Administrator** on your system (use the
 Start/windows button, type `cmd` and right click on the icon appearing to select
-`Run as Administrator`) and then you have to run in it 
+`Run as Administrator`) and then you have to run in it
 
 ```
 C:\WINDOWS\SYSTEM32> md C:\openvpn
