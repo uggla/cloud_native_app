@@ -8,7 +8,7 @@ Document writers:
  * Bruno.Cornec@hpe.com
  * Christophe.Larsonneur@dxc.com
  * Vincent.Misson@hpe.com
- * Rene.Ribaud@dxc.com
+ * Rene.Ribaud@gmail.com
 
 # Overview of the Assessment
 
