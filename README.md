@@ -395,12 +395,12 @@ Now the networking should be in place.
 1. Deploy a new vm via the dashboard (launch a new instance)
     * Name: bastion
     * Image: Fedora or Ubuntu (the one you prefer, they have both recent openstack tools)
-    * Flavor: v1.m1.d1
+    * Flavor: v1.m1.d5
     * Network: private1  (not the external)
     * Security group: default
     * Key pair: Generate your keypair or provide your ssh pub key.
 
-2. Associate a floating ip to your server (via compute --> Accès & Sécurité --> IP flottantes)
+2. Associate a floating ip to your server (via network --> Accès & Sécurité --> IP flottantes)
 This is a bit tricky, you need first to allocate a floating ip (this will give you an IP on the external network)
 Then you will associate this external ip to your bastion VM on the private network.
 
