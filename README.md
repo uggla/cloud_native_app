@@ -317,7 +317,9 @@ Each students group will receive a Lab number (X) from the instructors team
 
 All students servers receive their fixed-assigned addresses using a DHCP server. In order to connect to them, a VPN is provided. You need to activate that VPN by launching on Linux the following commands:
 
-**WARNING!!** The FTP service will be opened ONLY during the session 1. Keep your keys somewhere else.
+> **WARNING!!** The FTP service will be opened ONLY during the session 1.
+>
+> Keep your keys somewhere else.
 
 ```
 $ mkdir -p ~/lab
