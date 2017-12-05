@@ -438,3 +438,42 @@ Advice 1 : do not create a lot of security groups, you will become crazy managin
 Advice 2 : look at the orchestration part and mostly service heat. Sounds like an easy way to deploy stuff although not mandatory.
 
 Advice 3 : using IP is painfull in a cloud environment, prefer names.
+
+# Production environment
+    
+Each group will have 2 servers pre-installed with a CentOS 7 distribution.  
+Your development team will have to setup them with packstack: https://www.rdoproject.org/install/packstack/.
+
+## Servers and External IP assigments
+
+Lab ID | IP Server 1 | IP Server 2 | FIP DHCP start | FIP DHCP end |
+-------|-------------|-------------|----------------|--------------|
+Lab 1 | 10.11.51.140 | 10.11.51.141 | 10.11.54.10 | 10.11.54.29 |
+Lab 2 | 10.11.51.140 | 10.11.51.141 | 10.11.54.30 | 10.11.54.49 |
+Lab 3 | 10.11.51.140 | 10.11.51.141 | 10.11.54.50 | 10.11.54.69 |
+Lab 4 | 10.11.51.140 | 10.11.51.141 | 10.11.54.70 | 10.11.54.89 |
+Lab 5 | 10.11.51.140 | 10.11.51.141 | 10.11.54.90 | 10.11.54.109 |
+Lab 6 | 10.11.51.140 | 10.11.51.141 | 10.11.54.110 | 10.11.54.129 |
+Lab 7 | 10.11.51.140 | 10.11.51.141 | 10.11.54.130 | 10.11.54.149 |
+Lab 8 | 10.11.51.140 | 10.11.51.141 | 10.11.54.150 | 10.11.54.169 |
+Lab 9 | 10.11.51.140 | 10.11.51.141 | 10.11.54.170 | 10.11.54.189 |
+Lab 10 | 10.11.51.140 | 10.11.51.141 | 10.11.54.190 | 10.11.54.209 |
+
+## Tips for PackStack deployment
+
+- Update your servers
+- Install packstack packages (step 0 to step 2)
+- Generate and update an answer file: packstack –gen-answer-file=ensimag-packstack.txt  
+CONFIG_NTP_SERVERS=10.3.252.26  
+CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan  
+CONFIG_NEUTRON_ML2_FLAT_NETWORKS=extnet  
+CONFIG_NEUTRON_ML2_VLAN_RANGES=extnet:2232:2232  
+CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eno1  
+CONFIG_NEUTRON_OVS_BRIDGES_COMPUTE=br-ex  
+CONFIG_PROVISION_DEMO=n  
+
+- Connect with the external network:  
+**Create network:** neutron net-create public --router:external --provider:network_type vlan 
+--provider:physical_network extnet --provider:segmentation_id 2232  
+**Create subnet:** neutron subnet-create --name public-subnet --enable_dhcp=False 
+–allocation-pool=start=10.11.54.X,end=10.11.54.Y --gateway=10.11.54.1 public 10.11.54.1/24  
