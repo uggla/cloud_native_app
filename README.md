@@ -444,6 +444,8 @@ Advice 3 : using IP is painfull in a cloud environment, prefer names.
 Each group will have 2 servers pre-installed with a CentOS 7 distribution.  
 Your development team will have to setup them with packstack: https://www.rdoproject.org/install/packstack/.
 
+![Image](https://github.com/uggla/cloud_native_app/blob/master/schema/Infra-prod.jpg)
+
 ## Servers and External IP assigments
 
 Lab ID | IP Server 1 | IP Server 2 | FIP DHCP start | FIP DHCP end |
