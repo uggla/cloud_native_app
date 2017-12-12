@@ -210,7 +210,7 @@ the overall training subject, by mail or during the different sessions, to:
 * Get help (VPN Access, platform setup, expertise)
 * Discuss
 
-The mailing list is:  ensimag-discuss@lists.osp.hpe.com
+The mailing list is:  ensimag-internal@lists.osp.hpe.com
 
 # Agenda
 
@@ -440,8 +440,8 @@ Advice 2 : look at the orchestration part and mostly service heat. Sounds like a
 Advice 3 : using IP is painfull in a cloud environment, prefer names.
 
 # Production environment
-    
-Each group will have 2 servers pre-installed with a CentOS 7 distribution.  
+
+Each group will have 2 servers pre-installed with a CentOS 7 distribution.
 Your development team will have to setup them with packstack: https://www.rdoproject.org/install/packstack/.
 
 ![Image](https://github.com/uggla/cloud_native_app/blob/master/schema/Infra-prod.jpg)
@@ -465,17 +465,17 @@ Lab 10 | 10.11.51.171 | 10.11.51.172 | 10.11.54.190 | 10.11.54.209 |
 
 - Update your servers
 - Install packstack packages (step 0 to step 2)
-- Generate and update an answer file: packstack –gen-answer-file=ensimag-packstack.txt  
-CONFIG_NTP_SERVERS=10.3.252.26  
-CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan  
-CONFIG_NEUTRON_ML2_FLAT_NETWORKS=extnet  
-CONFIG_NEUTRON_ML2_VLAN_RANGES=extnet:2232:2232  
-CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eno1  
-CONFIG_NEUTRON_OVS_BRIDGES_COMPUTE=br-ex  
-CONFIG_PROVISION_DEMO=n  
+- Generate and update an answer file: packstack –gen-answer-file=ensimag-packstack.txt
+CONFIG_NTP_SERVERS=10.3.252.26
+CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan
+CONFIG_NEUTRON_ML2_FLAT_NETWORKS=extnet
+CONFIG_NEUTRON_ML2_VLAN_RANGES=extnet:2232:2232
+CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eno1
+CONFIG_NEUTRON_OVS_BRIDGES_COMPUTE=br-ex
+CONFIG_PROVISION_DEMO=n
 
-- Connect with the external network:  
-**Create network:** neutron net-create public --router:external --provider:network_type vlan 
---provider:physical_network extnet --provider:segmentation_id 2232  
-**Create subnet:** neutron subnet-create --name public-subnet --enable_dhcp=False 
-–allocation-pool=start=10.11.54.X,end=10.11.54.Y --gateway=10.11.54.1 public 10.11.54.1/24  
+- Connect with the external network:
+**Create network:** neutron net-create public --router:external --provider:network_type vlan
+--provider:physical_network extnet --provider:segmentation_id 2232
+**Create subnet:** neutron subnet-create --name public-subnet --enable_dhcp=False
+–allocation-pool=start=10.11.54.X,end=10.11.54.Y --gateway=10.11.54.1 public 10.11.54.1/24
