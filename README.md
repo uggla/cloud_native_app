@@ -465,7 +465,7 @@ Lab 10 | 10.11.51.171 | 10.11.51.172 | 10.11.54.190 | 10.11.54.209 |
 
 - Update your servers
 - Install packstack packages (step 0 to step 2)
-- Generate and update an answer file: packstack –gen-answer-file=ensimag-packstack.txt
+- Generate and update an answer file: packstack --gen-answer-file=ensimag-packstack.txt
 CONFIG_NTP_SERVERS=10.3.252.26
 CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan
 CONFIG_NEUTRON_ML2_FLAT_NETWORKS=extnet
@@ -478,4 +478,4 @@ CONFIG_PROVISION_DEMO=n
 **Create network:** neutron net-create public --router:external --provider:network_type vlan
 --provider:physical_network extnet --provider:segmentation_id 2232
 **Create subnet:** neutron subnet-create --name public-subnet --enable_dhcp=False
-–allocation-pool=start=10.11.54.X,end=10.11.54.Y --gateway=10.11.54.1 public 10.11.54.1/24
+--allocation-pool=start=10.11.54.X,end=10.11.54.Y --gateway=10.11.54.1 public 10.11.54.1/24
