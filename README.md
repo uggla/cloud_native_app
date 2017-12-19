@@ -479,7 +479,7 @@ CONFIG_PROVISION_DEMO=n
 - If your deployment is successful, try to access your OpenStack via Horizon
 
 - Connect with the external network:  
-Source your rc file.  
+**Source your rc file.**  
 **Create network:** neutron net-create public --router:external --provider:network_type vlan  
 --provider:physical_network extnet --provider:segmentation_id 2232  
 **Create subnet:** neutron subnet-create --name public-subnet --enable_dhcp=False  
