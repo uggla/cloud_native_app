@@ -17,4 +17,10 @@ docker exec -dw /root/VPN "$DOCKERID" openvpn /root/VPN/vpnlab2017.conf &> /dev/
 #Wait for the VPN to be connected
 sleep 10 &> /dev/null
 
+docker exec -d "$DOCKERID" ssh -oStrictHostKeyChecking=no -4i /root/deploy-key.pem -L 8004:10.11.50.7:8004 ubuntu@10.11.53.16 sleep infinity
+docker exec -d "$DOCKERID" ssh -oStrictHostKeyChecking=no -4i /root/deploy-key.pem -L 5000:10.11.50.7:5000 ubuntu@10.11.53.16 sleep infinity
+
+#Wait for the SSH port redirections to work
+sleep 10 &> /dev/null
+
 echo -n "$DOCKERID"
