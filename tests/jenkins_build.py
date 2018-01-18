@@ -3,7 +3,7 @@
 from __future__ import print_function
 
 import os
-import subprocess
+import subprocess, shlex
 import sys
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -12,68 +12,69 @@ tests_dir = os.path.join(script_dir, "testfiles")
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
+def run_cmd_out(command):
+    process = subprocess.Popen(command,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                encoding="utf-8")
+
+    full_stdout = ""
+
+    while True:
+        errput = process.stderr.readline()
+        output = process.stdout.readline()
+
+        if not output and not errput and process.poll() is not None:
+            break
+        if errput:
+            eprint(errput, end='')
+        if output:
+            full_stdout += output
+            print(output, end='')
+
+    retcode = process.poll()
+
+    if retcode != 0:
+        raise subprocess.CalledProcessError(returncode=retcode, cmd=command, output=None, stdout=full_stdout, stderr="")
+
+    return full_stdout
+
+def run_cmd(command):
+    run_cmd_out(command)
+
 def setup_env():
+    env_id = False
+
     try:
         os.chdir(script_dir)
 
-        result = subprocess.run([script_dir + "/setup_env.sh"],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                    check=True, errors="pass")
-        eprint(result.stderr)
+        env_id = run_cmd_out(os.path.join(script_dir, "setup_env.sh"))
 
-        env_id = result.stdout
         print("Docker id: " + env_id)
-
-    except subprocess.CalledProcessError as result:
-        eprint(result.stderr)
-
-        env_id = result.stdout
-        print("Docker id: " + env_id)
+    except CalledProcessError as e:
+        env_id = e.stdout
 
         if env_id:
             stop_env(env_id)
-        raise result
+
+        raise e
 
     return env_id
 
-def run_test(testfile, env_id):
-    try:
-        result = subprocess.run([script_dir + "/run_test.sh", env_id, testfile],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                    check=True, errors="pass")
-        print(result.stdout)
-        eprint(result.stderr)
-
-    except subprocess.CalledProcessError as result:
-        print(result.stdout)
-        eprint(result.stderr)
-
-        stop_env(env_id)
-        raise result
+def run_tests(env_id):
+    run_cmd([os.path.join(script_dir, "run_tests.sh"), env_id])
 
 def stop_env(env_id):
-    try:
-        result = subprocess.run([script_dir + "/stop_env.sh", env_id],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                    check=True, errors="pass")
-        print(result.stdout)
-        eprint(result.stderr)
-
-    except subprocess.CalledProcessError as result:
-        print(result.stdout)
-        eprint(result.stderr)
-
-        raise result
+    run_cmd([script_dir + "/stop_env.sh", env_id])
 
 def main():
-    env_id = setup_env()
+    try:
+        env_id = setup_env()
 
-    for entry in os.scandir(tests_dir):
-        if entry.is_file():
-            print ("Starting " + entry.path)
-            run_test(entry.path, env_id)
+        run_tests(env_id)
 
-    stop_env(env_id)
+    finally:
+        if env_id:
+            stop_env(env_id)
 
     exit(0)
 
