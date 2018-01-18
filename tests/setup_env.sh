@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 GITPATH=".."
-VPNPATH="~/VPN"
+VPNPATH="$HOME/VPN"
 WORKDIR="/workdir"
 
 docker pull treens/hp-testenv 1>&2
