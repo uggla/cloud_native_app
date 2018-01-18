@@ -1,16 +1,26 @@
 #!/bin/bash -xe
 
 GITPATH=".."
+VPNPATH="$HOME/VPN"
 WORKDIR="/workdir"
 
-DOCKERID="$(docker run -d --privileged --cap-add=NET_ADMIN treens/hp-testenv sleep infinity)" &> /dev/null
+docker pull treens/hp-testenv 1>&2
 
-docker exec "$DOCKERID" mkdir -p "$WORKDIR" &> /dev/null
-docker cp ~/VPN "$DOCKERID":/root &> /dev/null
-docker cp "$GITPATH" "$DOCKERID:$WORKDIR" &> /dev/null
-docker exec -d "$DOCKERID" openvpn /root/VPN/vpnlab2017.conf &> /dev/null
+DOCKERID="$(docker run -d --privileged --cap-add=NET_ADMIN treens/hp-testenv sleep infinity)" 1>&2
+
+docker cp "$VPNPATH" "$DOCKERID":/root 1>&2
+docker cp ~/.ssh/deploy-key.pem "$DOCKERID":/root 1>&2
+docker exec "$DOCKERID" chmod 600 /root/deploy-key.pem
+docker cp "$GITPATH" "$DOCKERID:$WORKDIR" 1>&2
+docker exec -dw /root/VPN "$DOCKERID" openvpn /root/VPN/vpnlab2017.conf 1>&2
 
 #Wait for the VPN to be connected
-sleep 10 &> /dev/null
+sleep 10 1>&2
+
+docker exec -d "$DOCKERID" ssh -oStrictHostKeyChecking=no -4i /root/deploy-key.pem -L 8004:10.11.50.7:8004 ubuntu@10.11.53.16 sleep infinity 1>&2
+docker exec -d "$DOCKERID" ssh -oStrictHostKeyChecking=no -4i /root/deploy-key.pem -L 5000:10.11.50.7:5000 ubuntu@10.11.53.16 sleep infinity 1>&2
+
+#Wait for the SSH port redirections to work
+sleep 10 1>&2
 
 echo -n "$DOCKERID"
