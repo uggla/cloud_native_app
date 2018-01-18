@@ -34,7 +34,10 @@ def run_cmd_out(command):
     retcode = process.poll()
 
     if retcode != 0:
-        raise subprocess.CalledProcessError(returncode=retcode, cmd=command, output=None, stdout=full_stdout, stderr="")
+        e = subprocess.CalledProcessError(returncode=retcode, cmd=command)
+        e.stdout = full_stdout
+
+        raise e
 
     return full_stdout
 
