@@ -1,13 +1,13 @@
 #!/bin/bash -xe
 
 DB_ROOT_PWD="test_root_pwd"
-DB_NAME="test_db"
-DB_USER="test_user"
-DB_PWD="test_password"
+DB_NAME="prestashop"
+DB_USER="prestashop"
+DB_PWD="prestashop1234"
 
-cd templates/db
+cd templates/db_i
 
-heat stack-create -f db.yml \
+heat stack-create -f db_i.yml \
     -P "key_name=deploy-key;network=test;sg=testing;db_root_password=$DB_ROOT_PWD;db_name=$DB_NAME;db_user=$DB_USER;db_password=$DB_PWD" \
     db
 
@@ -47,6 +47,26 @@ ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 mysql 
 exit
 EOF
 status="$?"
+
+if [ "$status" -ne 0 ]; then
+    heat stack-delete -y db
+    exit "$status"
+fi
+
+ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 curl "http://$IP:8080"
+status="$?"
+
+if [ "$status" -ne 0 ]; then
+    heat stack-delete -y db
+    exit "$status"
+fi
+
+ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 curl -s "http://$IP:8080/user/1" > /tmp/curl_output
+
+diff -b /tmp/curl_output ../../tests/testfiles/oracle_files/curl_result_i.json
+
+status="$?"
+
 
 if [ "$status" -ne 0 ]; then
     heat stack-delete -y db

@@ -63,7 +63,7 @@ resources:
         - port: { get_resource: instance_port }
       user_data:
         str_replace:
-          template: { get_file : db_bootstrap.sh }
+          template: { get_file : db_i_bootstrap.sh }
           params:
             $MYSQL_ROOT_PASSWORD: { get_param: db_root_password }
             $MYSQL_DATABASE: { get_param: db_name }
