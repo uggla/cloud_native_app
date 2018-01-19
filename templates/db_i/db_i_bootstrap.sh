@@ -29,4 +29,4 @@ cd /
 rm -rf /dockerbuild
 
 docker pull gonnachg/service_i
-docker run -d --network=host --expose=8080 gonnachg/service_i
+docker run -d --network=host --expose=8080 gonnachg/service_i ./i.py
