@@ -39,7 +39,7 @@ wget ftp://185.212.225.4/hp/microservices/i/config.py
 wget ftp://185.212.225.4/hp/microservices/i/i.conf
 wget ftp://185.212.225.4/hp/microservices/i/i.py
 
-sed -i 's/dbhost=.*$/dbhost=localhost' i.conf
+sed -i 's/^dbhost=.*$/dbhost=localhost/' i.conf
 
 docker build -t i .
 docker run -d --network=host --expose=8080 i
