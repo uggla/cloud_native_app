@@ -14,8 +14,8 @@ cd /dockerbuild
 
 #Fetch files db
 
-wget ftp://185.212.225.4/db/Dockerfile
-wget ftp://185.212.225.4/db/dump/prestashop_fullcustomer.dump.sql
+wget ftp://185.212.225.4/hp/db/Dockerfile
+wget ftp://185.212.225.4/hp/db/dump/prestashop_fullcustomer.dump.sql
 
 mkdir dump
 mv prestashop_fullcustomer.dump.sql dump
@@ -34,10 +34,10 @@ cd /dockerbuild
 
 #Fetch files i
 
-wget ftp://185.212.225.4/microservices/i/Dockerfile
-wget ftp://185.212.225.4/microservices/i/config.py
-wget ftp://185.212.225.4/microservices/i/i.conf
-wget ftp://185.212.225.4/microservices/i/i.py
+wget ftp://185.212.225.4/hp/microservices/i/Dockerfile
+wget ftp://185.212.225.4/hp/microservices/i/config.py
+wget ftp://185.212.225.4/hp/microservices/i/i.conf
+wget ftp://185.212.225.4/hp/microservices/i/i.py
 
 sed -i 's/dbhost=.*$/dbhost=localhost' i.conf
 

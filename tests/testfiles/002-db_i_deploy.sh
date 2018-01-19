@@ -5,9 +5,9 @@ DB_NAME="prestashop"
 DB_USER="prestashop"
 DB_PWD="prestashop1234"
 
-cd templates/db
+cd templates/db_i
 
-heat stack-create -f db.yml \
+heat stack-create -f db_i.yml \
     -P "key_name=deploy-key;network=test;sg=testing;db_root_password=$DB_ROOT_PWD;db_name=$DB_NAME;db_user=$DB_USER;db_password=$DB_PWD" \
     db
 
