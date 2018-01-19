@@ -22,7 +22,7 @@ mv prestashop_fullcustomer.dump.sql dump
 
 docker build -t db .
 
-docker run --network=host --expose=3306 -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" -e MYSQL_DATABASE="$MYSQL_DATABASE" -e MYSQL_USER="$MYSQL_USER" -e MYSQL_PASSWORD="$MYSQL_PASSWORD" db
+docker run -d --network=host --expose=3306 -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" -e MYSQL_DATABASE="$MYSQL_DATABASE" -e MYSQL_USER="$MYSQL_USER" -e MYSQL_PASSWORD="$MYSQL_PASSWORD" db
 
 cd /
 
@@ -42,4 +42,4 @@ wget ftp://185.212.225.4/hp/microservices/i/i.py
 sed -i 's/dbhost=.*$/dbhost=localhost' i.conf
 
 docker build -t i .
-docker run --network=host --expose=8080 i
+docker run -d --network=host --expose=8080 i
