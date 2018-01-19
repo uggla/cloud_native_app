@@ -63,7 +63,7 @@ fi
 
 ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 curl -s "http://$IP:8080/user/1" > /tmp/curl_output
 
-diff /tmp/curl_output ../../tests/testfiles/oracle_files/curl_result_i.json
+diff -b /tmp/curl_output ../../tests/testfiles/oracle_files/curl_result_i.json
 
 status="$?"
 
