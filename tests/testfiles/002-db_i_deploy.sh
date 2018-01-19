@@ -53,4 +53,24 @@ if [ "$status" -ne 0 ]; then
     exit "$status"
 fi
 
+ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 curl "http://$IP:8080"
+status="$?"
+
+if [ "$status" -ne 0 ]; then
+    heat stack-delete -y db
+    exit "$status"
+fi
+
+ssh -oStrictHostKeyChecking=no -i /root/deploy-key.pem ubuntu@10.11.53.16 curl -s "http://$IP:8080/user/1" > /tmp/curl_output
+
+diff /tmp/curl_output ../../tests/testfiles/oracle_files/curl_result_i.json
+
+status="$?"
+
+
+if [ "$status" -ne 0 ]; then
+    heat stack-delete -y db
+    exit "$status"
+fi
+
 heat stack-delete -y db
