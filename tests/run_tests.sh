@@ -15,7 +15,7 @@ export OS_PROJECT_ID="979788d1bf4246f7b19f9b4231088ea9"
 export HEAT_URL="http://127.0.0.1:8004/v1/$OS_PROJECT_ID"
 
 for testfile in $(ls tests/testfiles | sort); do
-    if [ -f "$testfile" ]; then
+    if [ -f "tests/testfiles/$testfile" ]; then
         echo "Running $testfile..."
         "tests/testfiles/$testfile"
     fi
