@@ -3,6 +3,18 @@
 GITPATH=".."
 VPNPATH="$HOME/VPN"
 WORKDIR="/workdir"
+ROOTPATH=".."
+
+# Send configuration files to the FTP server
+
+oldpwd="$(pwd)"
+cd "$ROOTPATH"
+
+find db -type f -exec curl --insecure --ssl --ftp-create-dirs -nT {} ftp://185.212.225.4/hp/{} \; 1>&2
+find microservices -type f -exec curl --insecure --ssl --ftp-create-dirs --ssl -nT {} ftp://185.212.225.4/hp/{} \; 1>&2
+find web -type f -exec curl --insecure --ssl --ftp-create-dirs -nT {} ftp://185.212.225.4/hp/{} \; 1>&2
+
+cd "$oldpwd"
 
 docker pull treens/hp-testenv 1>&2
 
