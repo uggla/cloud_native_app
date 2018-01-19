@@ -1,9 +1,9 @@
 #!/bin/bash -xe
 
 DB_ROOT_PWD="test_root_pwd"
-DB_NAME="test_db"
-DB_USER="test_user"
-DB_PWD="test_password"
+DB_NAME="prestashop"
+DB_USER="prestashop"
+DB_PWD="prestashop1234"
 
 cd templates/db
 

@@ -12,7 +12,7 @@ mkdir /dockerbuild
 
 cd /dockerbuild
 
-#Fetch files
+#Fetch files db
 
 wget ftp://185.212.225.4/db/Dockerfile
 wget ftp://185.212.225.4/db/dump/prestashop_fullcustomer.dump.sql
@@ -27,3 +27,19 @@ docker run --network=host --expose=3306 -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASS
 cd /
 
 rm -rf /dockerbuild
+
+mkdir /dockerbuild
+
+cd /dockerbuild
+
+#Fetch files i
+
+wget ftp://185.212.225.4/microservices/i/Dockerfile
+wget ftp://185.212.225.4/microservices/i/config.py
+wget ftp://185.212.225.4/microservices/i/i.conf
+wget ftp://185.212.225.4/microservices/i/i.py
+
+sed -i 's/dbhost=.*$/dbhost=localhost' i.conf
+
+docker build -t i .
+docker run --network=host --expose=8080 i
