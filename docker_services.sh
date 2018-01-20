@@ -5,15 +5,15 @@
 #
 # You need to provide your Registry address here:
 #REGISTRY=uggla
-REGISTRY=lab7-2.labossi.hpintelco.org:5500
-KEYSTONE=labossi.hpintelco.org
+REGISTRY=192.168.6.13:5043
+KEYSTONE=
 MYSQL_ROOT_PASSWORD=toto
 MYSQL_DATABASE=prestashop
 MYSQL_USER=prestashop
 MYSQL_PASSWORD=prestashop1234
-W2_APIKEY=blakey
-W2_TO=machin@bidule.com
-W2_DOMAIN=domain
+W2_APIKEY=key-e97bf053f9550e34e70ac2bcb16a994b
+W2_TO="pierre.franco@grenoble-inp.org"
+W2_DOMAIN=hp1-lab.local
 
 
 # Patch docker-compose-v3.yaml to pass our variables
@@ -31,7 +31,7 @@ sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/p/p.conf
 sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/w1/w1.conf
 
 # Start vizualizer on port 8080
-which docker-machine > /dev/null 2>&1 
+which docker-machine > /dev/null 2>&1
 if [ $? -ne 0 ]; then
 	ENVOPT=""
 else
@@ -68,7 +68,7 @@ done
 #	elif [ $a = "w2" ]; then
 #		OPT="--env W2_APIKEY=blakey --env W2_TO=machin@bidule.com --env W2_DOMAIN=domain"
 #	elif [ $a = "db" ]; then
-#		OPT="--env MYSQL_ROOT_PASSWORD=toto --env MYSQL_DATABASE=prestashop --env MYSQL_USER=prestashop --env MYSQL_PASSWORD=prestashop1234" 
+#		OPT="--env MYSQL_ROOT_PASSWORD=toto --env MYSQL_DATABASE=prestashop --env MYSQL_USER=prestashop --env MYSQL_PASSWORD=prestashop1234"
 #	else
 #		OPT=""
 #	fi
