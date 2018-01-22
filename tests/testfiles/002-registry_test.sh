@@ -2,7 +2,7 @@
 
 set +e
 
-if [ ! -f /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt]
+if [ ! -f /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt]; then
   sudo mkdir -p /usr/local/share/ca-certificates/docker-dev-cert/
   sudo scp -i ~/.ssh/deploy-key.pem ubuntu@registry.hp-lab1.local:/docker-registry/nginx/devdockerCA.crt /usr/local/share/ca-certificates/docker-dev-cert
   sudo update ca-certificates
