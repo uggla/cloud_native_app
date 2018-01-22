@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-DB_ROOT_PWD="test_root_pwd"
+DB_ROOT_PWD="toto"
 DB_NAME="prestashop"
 DB_USER="prestashop"
 DB_PWD="prestashop1234"
