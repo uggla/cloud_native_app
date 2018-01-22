@@ -3,6 +3,8 @@ services:
     rabbit:
         image:
             rabbitmq:3-management
+        deploy:
+            replicas: 1
         ports:
             - "15672:15672"
         environment:
@@ -15,6 +17,8 @@ services:
     redis:
         image:
             redis
+        deploy:
+            replicas: 1
         networks:
             cnalan:
                 aliases:
@@ -32,6 +36,8 @@ services:
                     - db
     web:
         image: ##REGISTRY##/cloudnativeapp_web
+        deploy:
+            replicas: 2
         ports:
             - "80:80"
         links:
@@ -43,6 +49,8 @@ services:
             cnalan:
     i:
         image: ##REGISTRY##/cloudnativeapp_i
+        deploy:
+            replicas: 2
         links:
             - db
         networks:
@@ -51,6 +59,8 @@ services:
                 - i
     s:
         image: ##REGISTRY##/cloudnativeapp_s
+        deploy:
+            replicas: 2
         links:
             - redis
         networks:
@@ -59,6 +69,8 @@ services:
                 - s
     b:
         image: ##REGISTRY##/cloudnativeapp_b
+        deploy:
+            replicas: 2
         links:
             - w
             - rabbit
@@ -68,18 +80,24 @@ services:
                 - b
     p:
         image: ##REGISTRY##/cloudnativeapp_p
+        deploy:
+            replicas: 2
         networks:
             cnalan:
               aliases:
                 - p
     w:
         image: ##REGISTRY##/cloudnativeapp_w
+        deploy:
+            replicas: 5
         networks:
             cnalan:
               aliases:
                 - w
     w1:
         image: ##REGISTRY##/cloudnativeapp_w1
+        deploy:
+            replicas: 1
         links:
           - rabbit
           - redis
@@ -89,6 +107,8 @@ services:
                 - w1
     w2:
         image: ##REGISTRY##/cloudnativeapp_w2
+        deploy:
+            replicas: 1
         links:
           - rabbit
         environment:
