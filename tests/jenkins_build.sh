@@ -27,7 +27,7 @@ docker cp -L "$HOME/.ssh/deploy-key.pem" "$DOCKER_ID:/root"
 docker exec -i "$DOCKER_ID" bash -xe <<EOF
 
 scp -oStrictHostKeyChecking=no -ri ~/deploy-key.pem /root/CNA ubuntu@10.11.53.16:"$WORKDIR"
-ssh -oStrictHostKeyChecking=no -i ~/deploy-key.pem ubuntu@10.11.53.16 "cd $WORKDIR/tests; ./run_tests.sh"
+ssh -oStrictHostKeyChecking=no -i ~/deploy-key.pem ubuntu@10.11.53.16 "cd $WORKDIR; tests/run_tests.sh"
 
 EOF
 
