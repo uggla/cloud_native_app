@@ -20,6 +20,9 @@ set -eE
 eval $(docker-machine env manager)
 STACK_FILE="docker-compose-v3-testing.yml" ./docker_services.sh
 
+# Wait for the DB to be available
+sleep 60
+
 for testfile in $(ls tests/testfiles | sort); do
     if [ -f "tests/testfiles/$testfile" ]; then
         echo "Running $testfile..."
