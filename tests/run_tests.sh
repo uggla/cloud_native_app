@@ -3,7 +3,7 @@
 set -x
 
 export OS_USERNAME="Lab1"
-export OS_PASSWORD="RocherIsADickhead"
+export OS_PASSWORD="$(cat $HOME/.os_pwd)"
 export OS_AUTH_URL="http://10.11.50.7:5000/v2.0"
 export OS_PROJECT_ID="979788d1bf4246f7b19f9b4231088ea9"
 export OS_TENANT_ID="979788d1bf4246f7b19f9b4231088ea9"
