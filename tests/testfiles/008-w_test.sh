@@ -25,4 +25,4 @@ if [ "$status" -ne 0 ]; then
 fi
 
 
-rm /tmp/curl_output_header_b
+rm /tmp/curl_output_header_w
