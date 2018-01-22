@@ -79,6 +79,7 @@ for svc in ${BUILD_LIST[@]}; do
 
     until [ "$status" -eq 0 -o "$tries" -eq 5 ]; do
         docker-compose build "$svc"
+        status="$?"
         tries="$((tries+1))"
     done
 
