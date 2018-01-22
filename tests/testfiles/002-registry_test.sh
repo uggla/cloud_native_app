@@ -7,7 +7,7 @@ if [ ! -f /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt]
   sudo scp -i ~/.ssh/deploy-key.pem ubuntu@registry.hp-lab1.local:/docker-registry/nginx/devdockerCA.crt /usr/local/share/ca-certificates/docker-dev-cert
   sudo update ca-certificates
   sudo systemctl restart docker
-  sleep 5
+  sleep 10
 fi
 
 curl  "https://registry.hp-lab1.local:5043/v2" > /tmp/curl_registry_output

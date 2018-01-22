@@ -5,13 +5,9 @@ DB_NAME="prestashop"
 DB_USER="prestashop"
 DB_PWD="prestashop1234"
 
-# Wait for the VM
-sleep 30
-
 set +e
 
 while [ -z "$IP" ]; do
-    sleep 10
 
     IP="$(docker-machine ip manager)"
     status="$?"

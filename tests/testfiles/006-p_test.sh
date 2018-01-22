@@ -3,8 +3,7 @@
 set +e
 
 while [ -z "$IP" ]; do
-    sleep 10
-
+  
     IP="$(docker-machine ip manager)"
     status="$?"
 
