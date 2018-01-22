@@ -21,4 +21,4 @@ if [ "$status" -ne 0 ]; then
     exit "$status"
 fi
 
-rm /tm p/curl_registry_output
+rm /tmp/curl_registry_output
