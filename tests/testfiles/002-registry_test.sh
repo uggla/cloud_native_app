@@ -10,7 +10,7 @@ if [ ! -f /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt ]; th
   sleep 10
 fi
 
-curl  "https://registry.hp-lab1.local:5043/v2" > /tmp/curl_registry_output
+curl  "https://registry.hp-lab1.local:5043/v2/" > /tmp/curl_registry_output
 
 diff -b /tmp/curl_registry_output tests/testfiles/oracle_files/curl_result_registry.json
 
