@@ -14,7 +14,7 @@ MYSQL_ROOT_PASSWORD=toto
 MYSQL_DATABASE=prestashop
 MYSQL_USER=prestashop
 MYSQL_PASSWORD=prestashop1234
-W2_APIKEY="$(cat "$HOME/.mailgunkey")"
+W2_APIKEY="$(cat "$HOME/.mailgunkey_prod")"
 W2_TO="pierre.franco@grenoble-inp.org"
 W2_DOMAIN=hp1-lab.local
 WORKDIR="$(dirname $0)"
@@ -79,7 +79,6 @@ for svc in ${BUILD_LIST[@]}; do
 
     until [ "$status" -eq 0 -o "$tries" -eq 5 ]; do
         docker-compose build "$svc"
-        status="$?"
         tries="$((tries+1))"
     done
 
