@@ -5,7 +5,7 @@
 #
 # You need to provide your Registry address here:
 #REGISTRY=uggla
-REGISTRY=lab7-2.labossi.hpintelco.org:5500
+REGISTRY=registry.uggla.fr
 KEYSTONE=labossi.hpintelco.org
 MYSQL_ROOT_PASSWORD=toto
 MYSQL_DATABASE=prestashop
@@ -46,7 +46,7 @@ fi
 
 # Build images if not done yet
 for a in web i b p s w w1 w2 db; do
-	img=`docker images | grep -E "^cloudnativeapp_$a "`
+	img=`docker images | grep -E "^cloud_native_app_$a "`
 	if [ _"$img" = _"" ]; then
 		docker-compose build
 	fi
@@ -54,10 +54,10 @@ done
 
 # Push images in Registry if not done yet
 for a in web i b p s w w1 w2 db; do
-	img=`docker images | grep -E "^$REGISTRY/cloudnativeapp_$a "`
+	img=`docker images | grep -E "^$REGISTRY/cloud_native_app_$a "`
 	if [ _"$img" = _"" ]; then
-		docker tag cloudnativeapp_$a $REGISTRY/cloudnativeapp_$a
-		docker push $REGISTRY/cloudnativeapp_$a
+		docker tag cloud_native_app_$a $REGISTRY/cloud_native_app_$a
+		docker push $REGISTRY/cloud_native_app_$a
 	fi
 done
 
@@ -75,7 +75,7 @@ done
 #
 #	svc=`docker service ls | grep -E " $a "`
 #	if [ _"$svc" = _"" ]; then
-#		docker service create --name $a --network cnalan $OPT $REGISTRY/cloudnativeapp_$a
+#		docker service create --name $a --network cnalan $OPT $REGISTRY/cloud_native_app_$a
 #	fi
 #done
 
