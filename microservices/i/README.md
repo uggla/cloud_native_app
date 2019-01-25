@@ -7,7 +7,7 @@ for a specific id.
 
 - Python 3
 - Flask (python3-flask)
-- libmysqlclient-dev
+- default-libmysqlclient-dev
 - python3-pip
 - pip3 install mysqlclient
 
