@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 
 # Worker 1 called by service B. This worker listen to amqp messages and write
 # to redis that the user played, and push the image price to swift.
